@@ -1,0 +1,28 @@
+/*styling*/
+
+/* body{
+    wi
+}
+
+nav{
+
+} */
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    display: inline;
+    float: right;
+    border-radius: 10px;
+}
+
+a {
+    display: block;
+    padding: 8px;
+    background-color: #dddddd;
+    border-radius: 10px;
+}
