@@ -20,7 +20,7 @@
     <div class="header">
         <a href="./index.php"><h2 style="font-style: italic;">Eventsync</h2></a>
         <div>
-            <a href="./sign_In.php">Sign In</a>
+            <a href="./signIn.php">Sign In</a>
             <a href="./signup.php" class="btn btn-primary">Sign Up</a>
         </div>
     </div>

@@ -1,55 +1,55 @@
 <?php
-// Enable error reporting for debugging
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+    // Enable error reporting for debugging
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
 
-session_start();
+    session_start();
 
-// Include database connection
-require_once "config.php";
+    // Include database connection
+    require_once "config.php";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = trim($_POST['email']);
-    $password = trim($_POST['password']);
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $email = trim($_POST['email']);
+        $password = trim($_POST['password']);
 
-    if (!empty($email) && !empty($password)) {
-        // Prepare SQL statement to fetch user by email
-        $sql = "SELECT id, username, password_hash FROM users WHERE email = ?";
-        
-        if ($stmt = $conn->prepare($sql)) {
-            $stmt->bind_param("s", $email);
-            $stmt->execute();
-            $stmt->store_result();
+        if (!empty($email) && !empty($password)) {
+            // Prepare SQL statement to fetch user by email
+            $sql = "SELECT id, username, password_hash FROM users WHERE email = ?";
+            
+            if ($stmt = $conn->prepare($sql)) {
+                $stmt->bind_param("s", $email);
+                $stmt->execute();
+                $stmt->store_result();
 
-            if ($stmt->num_rows == 1) {
-                $stmt->bind_result($id, $username, $hashed_password);
-                $stmt->fetch();
+                if ($stmt->num_rows == 1) {
+                    $stmt->bind_result($id, $username, $hashed_password);
+                    $stmt->fetch();
 
-                // Verify the password
-                if (password_verify($password, $hashed_password)) {
-                    // Start user session
-                    $_SESSION["loggedin"] = true;
-                    $_SESSION["id"] = $id;
-                    $_SESSION["username"] = $username;
+                    // Verify the password
+                    if (password_verify($password, $hashed_password)) {
+                        // Start user session
+                        $_SESSION["loggedin"] = true;
+                        $_SESSION["id"] = $id;
+                        $_SESSION["username"] = $username;
 
-                    // Redirect to a dashboard or homepage
-                    header("Location: dashboard.php");
-                    exit;
+                        // Redirect to a dashboard or homepage
+                        header("Location: dashboard.php");
+                        exit;
+                    } else {
+                        $error = "Invalid password.";
+                    }
                 } else {
-                    $error = "Invalid password.";
+                    $error = "No account found with that email.";
                 }
-            } else {
-                $error = "No account found with that email.";
+
+                $stmt->close();
             }
-
-            $stmt->close();
+        } else {
+            $error = "Please enter both email and password.";
         }
-    } else {
-        $error = "Please enter both email and password.";
-    }
 
-    $conn->close();
-}
+        $conn->close();
+    }
 ?>
 
 <!DOCTYPE html>
@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <!-- Username Login Form -->
-            <form id="usernameForm" action="signin.php" method="POST">
+            <form id="usernameForm" action="signIn.php" method="POST">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
 
