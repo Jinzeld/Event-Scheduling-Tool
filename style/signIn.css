@@ -1,0 +1,139 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Background */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to bottom, #1e1e2d, #3b3b5f, #5a3d7a);
+}
+
+/*navbar*/
+.navbar {
+    width: 100%;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+}
+
+.nav-brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+    font-style: italic;
+}
+
+.nav-brand:hover {
+    color: #dcdcdc;
+}
+
+/* Container */
+.container {
+    text-align: center;
+}
+
+/* Branding */
+.brand {
+    font-size: 28px;
+    font-style: italic;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Title */
+.title {
+    font-size: 24px;
+    color: white;
+    margin-bottom: 15px;
+}
+
+/* Login Box */
+.login-box {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 20px;
+    border-radius: 12px;
+    width: 350px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 10px;
+}
+
+.tab {
+    flex: 1;
+    padding: 8px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.7);
+    border-bottom: 2px solid transparent;
+}
+
+.tab.active {
+    font-weight: bold;
+    color: white;
+    border-bottom: 2px solid white;
+}
+
+/* Form Styling */
+form {
+    text-align: left;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    color: white;
+    margin-top: 10px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    outline: none;
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Login Button */
+.login-btn {
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.3);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}

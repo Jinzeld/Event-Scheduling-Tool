@@ -18,10 +18,10 @@
 </head>
 <body>
     <div class="header">
-        <a href="./index.php"><h2>Calsync</h2></a>
+        <a href="./index.php"><h2 style="font-style: italic;">Eventsync</h2></a>
         <div>
             <a href="./sign_In.php">Sign In</a>
-            <a href="./sign_Up.php" class="btn btn-primary">Sign Up</a>
+            <a href="./signup.php" class="btn btn-primary">Sign Up</a>
         </div>
     </div>
 
@@ -29,7 +29,7 @@
         <h1>Scheduling and event tool.</h1>
         <p>We make it easy for you to take down your events and keep track of your schedule!</p>
         <div class="cta-buttons">
-            <a href="#" class="btn btn-primary">Create your event ▶</a>
+            <a href="./signup.php" class="btn btn-primary">Create your event ▶</a>
             <a href="#" class="btn btn-secondary">See how it works ▶</a>
         </div>
     </div>
