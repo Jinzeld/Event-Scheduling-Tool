@@ -1,12 +1,13 @@
 
 /*Styling*/
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
 html, body{
     background-position: center;
     background: linear-gradient(to bottom, #2a2a3b, #4a3a63);
     background-size: cover;
     background-attachment: fixed;
-    
     color: white;
     font-family: Arial, sans-serif;
     text-align: center;
@@ -16,24 +17,39 @@ html, body{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 30px;
+    margin-top: -20px;
+    
 }
 .header a {
     color: white;
     text-decoration: none;
     margin: 0 15px;
+    
 }
 .main-content {
+    
     max-width: 800px;
     margin: auto;
-    text-align: center;
+    margin-top: 200px;
+    margin-right: 800px;
 }
+
 .main-content h1 {
-    font-size: 3em;
-    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    font-size: 3.5em;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: white;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+}
+
+.main-content p {
+    font-size: 2em;
+    margin-left: 20px;
+
 }
 .cta-buttons {
-    margin-top: 20px;
+    margin-top: 60px;
 }
 .cta-buttons a {
     display: inline-block;
@@ -54,10 +70,10 @@ html, body{
 .carousel-container {
     position: relative; 
     display: flex;
-    width: 30%;
-    margin: 40px auto;
-    text-align: center;
-    margin-top: 200px;
+    width: 50%;
+    margin: 40px auto;  
+    margin-top: -200px;
+    margin-left: 800px;
 }
 #productCarousel {
     max-width: 80%  ;
@@ -72,7 +88,7 @@ html, body{
 
 .carousel-inner img {
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;
     margin: auto;
     height: auto;
     display: block;
