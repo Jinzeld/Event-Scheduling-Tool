@@ -61,7 +61,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventSync - Sign In</title>
-    <link rel="stylesheet" href="../style/signIn.css">
+    <link rel="stylesheet" href="../style/signin.css">
 </head>
 <body>
 
@@ -110,6 +110,7 @@
 
             </form>
         </div>
+        <p class="signup_link">Not a member yet?<a href="signup.php"> SIGN UP</a></p>
     </div>
 
     <script>

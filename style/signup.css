@@ -1,3 +1,7 @@
+* {
+    color: white;
+}
+
 body {
     font-family: Arial, sans-serif;
     background: linear-gradient(to bottom, #1e1e2d, #3b3b5f, #5a3d7a);
@@ -89,4 +93,15 @@ button {
 
 button:hover {
     background-color: #816e9e;
+}
+
+.message-box {
+    color: rgb(175, 171, 196);
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+    background-color: rgba(125, 54, 195, 0.1);
+    border: 1px solid rgb(96, 54, 195);
+    border-radius: 5px;
+    padding: 10px;
 }

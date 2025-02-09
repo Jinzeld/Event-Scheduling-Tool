@@ -2,6 +2,7 @@
 * {
     margin: 0;
     padding: 0;
+    color: white;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
 }
@@ -150,4 +151,9 @@ input::placeholder {
     border-radius: 5px;
     padding: 10px;
 
+}
+
+.signup_link {
+    padding: 10px;
+    
 }

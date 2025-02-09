@@ -25,12 +25,27 @@ html, body{
     text-decoration: none;
     margin: 0 15px;
 }
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 60px; /* Increases spacing between elements */
+    text-align: center;
+    padding: 50px; /* Adds more padding */
+    max-width: 1500px; /* Increase max size */
+    width: 95%; /* Ensures it adjusts dynamically */
+    margin: 0 auto; /* Centers the container */
+    margin-top: 100px;
+}
+
 .main-content {
-    
-    max-width: 800px;
-    margin: auto;
-    margin-top: 200px;
-    margin-right: 800px;
+    flex: 1.5; /* Increases its share of space */
+    max-width: 750px; /* Allows it to be larger */
+    text-align: left;
+    min-width: 400px; /* Prevents it from becoming too small */
+    font-size: 1.3em; /* Makes text bigger */
 }
 
 .main-content h1 {
@@ -66,14 +81,16 @@ html, body{
     background-color: #565b76;
     color: white;
 }
+
 .carousel-container {
-    position: relative; 
-    display: flex;
-    width: 50%;
-    margin: 40px auto;  
-    margin-top: -200px;
-    margin-left: 800px;
+    flex: 2; /* Gives more space to the carousel */
+    width: 100%;
+    height: auto;
+    max-width: 900px;
+    max-height: 500px; /* Increases image height */
+    border-radius: 10px;
 }
+
 #productCarousel {
     max-width: 80%  ;
     margin: auto;
@@ -87,9 +104,30 @@ html, body{
 
 .carousel-inner img {
     width: 100%;
-    max-width: 900px;
-    margin: auto;
     height: auto;
-    display: block;
+    max-width: 100%;
+    max-height: 500px; /* Increases image height */
     border-radius: 10px;
+}
+
+@media (max-width: 1024px) {
+    .container {
+        max-width: 95%;
+    }
+
+    .main-content, .carousel-container {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .main-content, .carousel-container {
+        max-width: 100%;
+        font-size: 1em; /* Slightly smaller for mobile */
+    }
 }

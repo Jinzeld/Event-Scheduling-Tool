@@ -1,7 +1,7 @@
 <?php
     // Enable error reporting for debugging
-    ini_set('display_errors', 1);
-    error_reporting(E_ALL);
+    // ini_set('display_errors', 1);
+    // error_reporting(E_ALL);
 
     session_start();
 
@@ -32,9 +32,9 @@
             $stmt->bind_param("sss", $username, $email, $password_hash);
             
             if ($stmt->execute()) {
-                echo "User registered successfully!";
+                $message = "User registered successfully!";
             } else {
-                echo "Error: " . $stmt->error;
+                $message = "Error: " . $stmt->error;
             }
         }
 
@@ -52,7 +52,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventSync - Sign Up</title>
-    <link rel="stylesheet" href="../style/signUp.css">
+    <link rel="stylesheet" href="../style/signup.css">
 </head>
 <body>
 
@@ -65,6 +65,12 @@
         <h2>Sign Up</h2>
 
         <div class="signup-box">
+            
+            <!-- Display error or success message inside the box -->
+            <?php if (!empty($message)): ?>
+                <div class="message-box"><?php echo $message; ?></div>
+            <?php endif; ?>
+            
             <form action="signup.php" method="POST">
                 <div class="form-group">
                     <label for="username">Username:</label>
@@ -85,6 +91,7 @@
                 <button type="submit">Submit</button> 
             </form>
         </div>
+        <p>If your a member Please, <a href="signIn.php">SIGN IN</a></p>
     </div>
 </body>
 </html>
