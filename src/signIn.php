@@ -1,51 +1,54 @@
 <?php
-    // Enable error reporting for debugging
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
-
+    
     session_start();
 
-    // Include database connection
     require_once "config.php";
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $email = trim($_POST['email']);
-        $password = trim($_POST['password']);
+    $error = "";
 
-        if (!empty($email) && !empty($password)) {
-            // Prepare SQL statement to fetch user by email
-            $sql = "SELECT id, username, password_hash FROM users WHERE email = ?";
-            
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $login = "";
+        $password = isset($_POST['password']) ? trim($_POST['password']) : null;
+
+        // Determine if login was via username or email
+        if (!empty($_POST['username'])) {
+            $login = trim($_POST['username']);
+            $sql = "SELECT user_id, username, password_hash FROM users WHERE username = ?";
+        } elseif (!empty($_POST['email'])) {
+            $login = trim($_POST['email']);
+            $sql = "SELECT user_id, email, password_hash FROM users WHERE email = ?";
+        }
+
+        if (!empty($login) && !empty($password)) {
             if ($stmt = $conn->prepare($sql)) {
-                $stmt->bind_param("s", $email);
+                $stmt->bind_param("s", $login);
                 $stmt->execute();
                 $stmt->store_result();
 
                 if ($stmt->num_rows == 1) {
-                    $stmt->bind_result($id, $username, $hashed_password);
+                    $stmt->bind_result($user_id, $fetched_login, $hashed_password);
                     $stmt->fetch();
 
-                    // Verify the password
                     if (password_verify($password, $hashed_password)) {
-                        // Start user session
                         $_SESSION["loggedin"] = true;
-                        $_SESSION["id"] = $id;
-                        $_SESSION["username"] = $username;
+                        $_SESSION["user_id"] = $user_id;
+                        $_SESSION["login"] = $fetched_login;
 
-                        // Redirect to a dashboard or homepage
                         header("Location: dashboard.php");
                         exit;
                     } else {
                         $error = "Invalid password.";
                     }
                 } else {
-                    $error = "No account found with that email.";
+                    $error = "No account found with that username or email.";
                 }
 
                 $stmt->close();
             }
         } else {
-            $error = "Please enter both email and password.";
+            $error = "Please enter your credentials.";
         }
 
         $conn->close();
@@ -77,8 +80,13 @@
                 <button class="tab" onclick="switchTab('email')">Email</button>
             </div>
 
+             <!-- Display Error Message Inside Login Box -->
+             <?php if (!empty($error)) { echo "<div class='error-message'><p>$error</p></div>"; } ?>
+
             <!-- Username Login Form -->
             <form id="usernameForm" action="signIn.php" method="POST">
+                <input type="hidden" name="login_type" value="username">
+                
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
 
@@ -89,7 +97,9 @@
             </form>
 
             <!-- Email Login Form (Hidden Initially) -->
-            <form id="emailForm" action="signin.php" method="POST" style="display: none;">
+            <form id="emailForm" action="signIn.php" method="POST" style="display: none;">
+                <input type="hidden" name="login_type" value="email">
+
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
 
@@ -97,6 +107,7 @@
                 <input type="password" id="passwordEmail" name="password" required>
 
                 <button type="submit" class="login-btn">Login</button>
+
             </form>
         </div>
     </div>
@@ -119,3 +130,4 @@
 
 </body>
 </html>
+
