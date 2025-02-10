@@ -66,12 +66,12 @@ body {
 
 /* Logout Button */
 .nav-link {
-    background: #e74c3c;
+    background: linear-gradient(to right, #7a3d9d, #512da8);
     color: white;
 }
 
 .nav-link:hover {
-    background: #c0392b;
+    background: linear-gradient(to right, #9b59b6, #673ab7);
     transform: scale(1.05);
 }
 
