@@ -15,6 +15,7 @@ body {
     align-items: center;
     min-height: 100vh;
     flex-direction: column;
+    overflow: auto;
 }
 
 /* Navbar Styling */
@@ -83,16 +84,6 @@ body {
     margin-bottom: 20px;
 }
 
-
-/* Container */
-.container {
-    width: 80%;
-    max-width: 1200px;
-    margin-top: 80px; /* Adjust for the fixed navbar */
-    color: white;
-}
-
-/* Title */
 .title {
     font-size: 32px;
     font-weight: bold;
@@ -100,14 +91,31 @@ body {
     text-align: center;
 }
 
-    /* Tabs Styling */
+/* Ensure the container does not overflow */
+.container {    
+    width: 80%;
+    max-width: 800px;
+    margin-top: 80px; /* Adjust for the fixed navbar */
+    color: white;
+}   
+
+/* Tab Navigation */
 .tabs {
     display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+}
+
+.tab-content.active {
+    display: block; /* Show only the active tab */
+}
+
+/* Fixing tab layout so it switches properly */
+.tab-content {
+    display: none; /* Hide all tabs initially */
 }
 
 .tab-link {
+    flex: 1;
     background-color: #444;
     color: white;
     padding: 10px 20px;
@@ -121,68 +129,78 @@ body {
 
 .tab-link.active {
     background-color: #5a3d7a;
+    color: white;
 }
 
 .tab-link:hover {
     background-color: #777;
 }
 
-/* Tab Content */
-.tab-content {
-    display: none;
+/* Ensure the event list is scrollable if too long */
+.event-list {
+    max-height: 500px; /* Set a max height to avoid overflowing */
+    overflow-y: auto; /* Enables scrolling if needed */
+    padding: 10px;
+    color: white;
 }
 
-.tab-content.active {
-    display: block;
-}
-
-/* Event Display */
-.events-container {
+.event-item {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+    justify-content: space-between;
+    background:rgb(88, 88, 88); 
+    color: white;   
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 10px;
+    transition: 0.3s ease-in-out;
 }
 
-/* Event Box Styling */
-.event-box {
-    background: rgba(255, 255, 255, 0.15);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    width: 250px;
-    transition: transform 0.3s;
-    backdrop-filter: blur(10px);
+.event-item:hover {
+    transform: translateY(-3px);
 }
 
-.event-box:hover {
-    transform: scale(1.05);
+/* Upcoming Event Styling */
+.upcoming-event {
+    color: white;
+    border-left: 5px solid #28a745; /* Green for upcoming */
+    opacity: 0.8;
+}
+
+/* Past Event Styling */
+.past-event {
+    border-left: 5px solid #dc3545; /* Red for past */
+    opacity: 0.7;
+}
+
+/* Event Info */
+.event-info {
+    flex: 1;
+    color: white;
 }
 
 .event-name {
     font-size: 18px;
     font-weight: bold;
-    padding: 0 0 10px 0;
+    margin-bottom: 5px;
 }
 
-.past-event {
-    border-left: 5px solid #ff4d4d;
-}
-
-.upcoming-event {
-    border-left: 5px solid #4dff4d;
-}
-
-.event-date, .event-time, .event-location {
+.event-date, .event-location {
     font-size: 14px;
+    color: white;
+    margin: 5px 0;
+}
+
+.event-time {
+    margin-left: 10px;
+    font-weight: bold;
 }
 
 .event-description {
     font-size: 14px;
-    color: #e0e0e0;
-    margin-top: 10px;
+    color: white;
+    margin-top: 15px;
 }
-
 
 /* Edit & Delete Icon Styles */
 .event-actions {
@@ -200,4 +218,12 @@ body {
 
 .event-actions a:hover {
     color:rgb(187, 147, 255);
+}
+
+/* No Events Message */
+.no-events {
+    text-align: center;
+    font-size: 16px;
+    color: #777;
+    margin-top: 20px;
 }

@@ -47,7 +47,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Your Events</title>
-    <link rel="stylesheet" href="../style/Dashboard.css">
+    <link rel="stylesheet" href="../style/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
@@ -58,8 +58,7 @@
         <a href="newEvents.php" class="nav-events">Create Events +</a>
         <a href="logout.php" class="nav-link">Logout</a>
     </nav>
-
-    <!-- Dashboard Container -->
+    
     <div class="container">
         <h2 class="welcome-message">Welcome, <?php echo htmlspecialchars($username); ?>!</h2>
 
@@ -70,90 +69,119 @@
             <button class="tab-link active" onclick="switchTab(event, 'upcoming-events')">Upcoming Events</button>
             <button class="tab-link" onclick="switchTab(event, 'past-events')">Past Events</button>
         </div>
-
-        <div class="events-container">
-            <!-- Upcoming Events Section -->
-            <div id="upcoming-events" class="tab-content active">
+        <!-- Upcoming Events -->
+        <div id="upcoming-events" class="tab-content active">
+            <ul class="event-list">
                 <?php
-                $hasUpcoming = false;
+                $hasUpcomingEvents = false;
                 foreach ($events as $event):
                     if (strtotime($event['date']) >= strtotime(date("Y-m-d"))):
-                        $hasUpcoming = true; ?>
-                        <div class="event-box upcoming-event">
-
-                            <!-- Edit & Delete Buttons -->
-                            <div class="event-actions">
-                                <a href="editEvent.php?id=<?php echo $event['id']; ?>" title="Edit"><i class="fa fa-edit"></i></a>
-                                <a href="deleteEvent.php?id=<?php echo $event['id']; ?>" title="Delete" class="delete-btn" onclick="return confirm('Are you sure you want to delete this event?');"><i class="fa fa-trash"></i></a>
+                        $hasUpcomingEvents = true; ?>
+                        <li class="event-item upcoming-event">
+                            <div class="event-info">
+                                <h3 class="event-name"><?php echo htmlspecialchars($event['name']); ?></h3>
+                                <p class="event-date">
+                                    <i class="fa fa-calendar"></i> <?php echo date("F j, Y", strtotime($event['date'])); ?>
+                                    <span class="event-time">
+                                        <i class="fa fa-clock"></i> <?php echo date("g:i A", strtotime($event['time'])); ?>
+                                    </span>
+                                </p>
+                                <p class="event-location">
+                                    <i class="fa fa-map-marker-alt"></i> <?php echo htmlspecialchars($event['location']); ?>
+                                </p>
+                                <p class="event-description"><?php echo nl2br(htmlspecialchars($event['description'])); ?></p>
                             </div>
-
-                            <!-- main event display -->
-                            <h3 class="event-name"><?php echo htmlspecialchars($event['name']); ?></h3>
-                            <p class="event-date"><strong>Date:</strong> <?php echo date("F j, Y", strtotime($event['date'])); ?></p>
-                            <p class="event-time"><strong>Time:</strong> <?php echo date("g:i A", strtotime($event['time'])); ?></p>
-                            <p class="event-location"><strong>Location:</strong> <?php echo htmlspecialchars($event['location']); ?></p>
-                            <p class="event-description"><strong>Description:</strong> <?php echo nl2br(htmlspecialchars($event['description'])); ?></p>
-                        </div>
+                            <div class="event-actions">
+                                <a href="editEvent.php?event_id=<?php echo $event['event_id']; ?>" title="Edit">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a href="deleteEvent.php?event_id=<?php echo $event['event_id']; ?>" title="Delete" class="delete-btn"
+                                onclick="return confirm('Are you sure you want to delete this event?');">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </div>
+                        </li>
                     <?php endif;
                 endforeach;
-                if (!$hasUpcoming) echo "<p>No upcoming events found.</p>"; ?>
-            </div>
 
-            <!-- Past Events Section -->
-            <div id="past-events" class="tab-content">
+                if (!$hasUpcomingEvents): ?>
+                    <p class="no-events">No upcoming events found.</p>
+                <?php endif; ?>
+            </ul>
+        </div>
+
+        <!-- Past Events -->
+        <div id="past-events" class="tab-content">
+            <ul class="event-list">
                 <?php
-                $hasPast = false;
+                $hasPastEvents = false;
                 foreach ($events as $event):
                     if (strtotime($event['date']) < strtotime(date("Y-m-d"))):
-                        $hasPast = true; ?>
-                        <div class="event-box past-event">
-
-                            <!-- Edit & Delete Buttons -->
-                            <div class="event-actions">
-                                <a href="editEvent.php?id=<?php echo $event['id']; ?>" title="Edit"><i class="fa fa-edit"></i></a>
-                                <a href="deleteEvent.php?id=<?php echo $event['id']; ?>" title="Delete" class="delete-btn" onclick="return confirm('Are you sure you want to delete this event?');"><i class="fa fa-trash"></i></a>
+                        $hasPastEvents = true; ?>
+                        <li class="event-item past-event">
+                            <div class="event-info">
+                                <h3 class="event-name"><?php echo htmlspecialchars($event['name']); ?></h3>
+                                <p class="event-date">
+                                    <i class="fa fa-calendar"></i> <?php echo date("F j, Y", strtotime($event['date'])); ?>
+                                    <span class="event-time">
+                                        <i class="fa fa-clock"></i> <?php echo date("g:i A", strtotime($event['time'])); ?>
+                                    </span>
+                                </p>
+                                <p class="event-location">
+                                    <i class="fa fa-map-marker-alt"></i> <?php echo htmlspecialchars($event['location']); ?>
+                                </p>
+                                <p class="event-description"><?php echo nl2br(htmlspecialchars($event['description'])); ?></p>
                             </div>
-
-                            <!-- main event display -->
-                            <h3 class="event-name"><?php echo htmlspecialchars($event['name']); ?></h3>
-                            <p class="event-date"><strong>Date:</strong> <?php echo date("F j, Y", strtotime($event['date'])); ?></p>
-                            <p class="event-time"><strong>Time:</strong> <?php echo date("g:i A", strtotime($event['time'])); ?></p>
-                            <p class="event-location"><strong>Location:</strong> <?php echo htmlspecialchars($event['location']); ?></p>
-                            <p class="event-description"><strong>Description:</strong> <?php echo nl2br(htmlspecialchars($event['description'])); ?></p>
-                        </div>
+                            <div class="event-actions">
+                                <a href="editEvent.php?event_id=<?php echo $event['event_id']; ?>" title="Edit">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a href="deleteEvent.php?event_id=<?php echo $event['event_id']; ?>" title="Delete" class="delete-btn"
+                                onclick="return confirm('Are you sure you want to delete this event?');">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </div>
+                        </li>
                     <?php endif;
                 endforeach;
-                if (!$hasPast) echo "<p>No past events found.</p>"; ?>
-            </div>
+
+                if (!$hasPastEvents): ?>
+                    <p class="no-events">No past events found.</p>
+                <?php endif; ?>
+            </ul>
         </div>
     </div>
 
+
+
     <script>
-        function switchTab(evt, tabName) {
-            var i, tabcontent, tablinks;
+        function switchTab(event, tabName) {
+            var i, tabContent, tabLinks;
 
-            // Hide all tab content
-            tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
+            // Hide all tab contents
+            tabContent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = "none";
             }
 
-            // Remove "active" class from all tab links
-            tablinks = document.getElementsByClassName("tab-link");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].classList.remove("active");
+            // Remove "active" class from all tabs
+            tabLinks = document.getElementsByClassName("tab-link");
+            for (i = 0; i < tabLinks.length; i++) {
+                tabLinks[i].classList.remove("active");
             }
 
-            // Show the selected tab and mark button as active
+            // Show the selected tab
             document.getElementById(tabName).style.display = "block";
-            evt.currentTarget.classList.add("active");
+            event.currentTarget.classList.add("active");
         }
 
-        // Default to displaying the Upcoming Events tab on page load
-        document.addEventListener("DOMContentLoaded", function () {
+        // Ensure the first tab is shown by default
+        document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("upcoming-events").style.display = "block";
         });
     </script>
+
+
 
 
 </body>
