@@ -1,6 +1,8 @@
 <?php
+
 session_start();
-require_once "config.php"; // Database connection file
+
+require_once "config.php"; 
 
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("Location: signIn.php");
@@ -62,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="success-message"><?php echo $success; ?></div>
         <?php endif; ?>
 
-        <form action="createEvent.php" method="POST">
+        <form action="newEvents.php" method="POST">
             <label for="title">Event Title:</label>
             <input type="text" id="title" name="title" required>
 
