@@ -1,3 +1,7 @@
+* {
+    color: white;
+}
+
 body {
     font-family: Arial, sans-serif;
     background: linear-gradient(to bottom, #4e4e4e, #515151, #4f4f4f, #5a3d7a);

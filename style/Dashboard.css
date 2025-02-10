@@ -100,6 +100,42 @@ body {
     text-align: center;
 }
 
+    /* Tabs Styling */
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tab-link {
+    background-color: #444;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.tab-link.active {
+    background-color: #5a3d7a;
+}
+
+.tab-link:hover {
+    background-color: #777;
+}
+
+/* Tab Content */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
 /* Event Display */
 .events-container {
     display: flex;
@@ -108,13 +144,15 @@ body {
     justify-content: center;
 }
 
+/* Event Box Styling */
 .event-box {
-    background-color: #fff;
+    background: rgba(255, 255, 255, 0.15);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     width: 250px;
     transition: transform 0.3s;
+    backdrop-filter: blur(10px);
 }
 
 .event-box:hover {
@@ -124,15 +162,42 @@ body {
 .event-name {
     font-size: 18px;
     font-weight: bold;
+    padding: 0 0 10px 0;
 }
 
-.event-date {
+.past-event {
+    border-left: 5px solid #ff4d4d;
+}
+
+.upcoming-event {
+    border-left: 5px solid #4dff4d;
+}
+
+.event-date, .event-time, .event-location {
     font-size: 14px;
-    color: #777;
 }
 
 .event-description {
     font-size: 14px;
     color: #e0e0e0;
     margin-top: 10px;
+}
+
+
+/* Edit & Delete Icon Styles */
+.event-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.event-actions a {
+    text-decoration: none;
+    margin-left: 8px;
+    color: white;
+    font-size: 18px;
+}
+
+.event-actions a:hover {
+    color:rgb(187, 147, 255);
 }

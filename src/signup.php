@@ -91,7 +91,7 @@
                 <button type="submit">Submit</button> 
             </form>
         </div>
-        <p>If your a member Please, <a href="signIn.php">SIGN IN</a></p>
+        <p>If your a member, Please <a href="signIn.php">SIGN IN</a></p>
     </div>
 </body>
 </html>
