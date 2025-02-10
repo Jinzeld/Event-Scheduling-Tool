@@ -100,8 +100,8 @@ button:hover {
     font-size: 14px;
     margin-top: 10px;
     text-align: center;
-    background-color: rgba(125, 54, 195, 0.1);
-    border: 1px solid rgb(96, 54, 195);
+    background-color: rgba(210, 63, 93, 0.1);
+    border: 1px solid rgb(195, 54, 127);
     border-radius: 5px;
     padding: 10px;
 }

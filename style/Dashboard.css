@@ -17,12 +17,11 @@ body {
     flex-direction: column;
 }
 
-/* Navbar */
+/* Navbar Styling */
 .navbar {
     width: 100%;
-    padding: 15px;
+    padding: 15px 30px;
     background: #333;
-    color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -30,8 +29,10 @@ body {
     top: 0;
     left: 0;
     z-index: 100;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* Brand Name */
 .nav-brand {
     font-size: 24px;
     font-weight: bold;
@@ -40,16 +41,37 @@ body {
     font-style: italic;
 }
 
+/* Navbar Buttons */
+.nav-events,
 .nav-link {
     text-decoration: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Create Events Button */
+.nav-events {
+    background: linear-gradient(to right, #7a3d9d, #512da8);
     color: white;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #444;
+}
+
+.nav-events:hover {
+    background: linear-gradient(to right, #9b59b6, #673ab7);
+    transform: scale(1.05);
+}
+
+/* Logout Button */
+.nav-link {
+    background: #e74c3c;
+    color: white;
 }
 
 .nav-link:hover {
-    background-color: #555;
+    background: #c0392b;
+    transform: scale(1.05);
 }
 
 /* Welcome Message */

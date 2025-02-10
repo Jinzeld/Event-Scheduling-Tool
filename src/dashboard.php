@@ -40,13 +40,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Your Events</title>
-    <link rel="stylesheet" href="../style/dashboard.css">
+    <link rel="stylesheet" href="../style/Dashboard.css">
 </head>
 <body>
 
     <!-- Navbar -->
     <nav class="navbar">
         <a href="dashboard.php" class="nav-brand">Eventsync</a>
+        <a href="newEvents.php" class="nav-events">Create Events +</a>
         <a href="logout.php" class="nav-link">Logout</a>
     </nav>
 
