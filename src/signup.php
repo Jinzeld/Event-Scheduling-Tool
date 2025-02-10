@@ -33,6 +33,8 @@
             
             if ($stmt->execute()) {
                 $message = "User registered successfully!";
+                header("Location: signIn.php");
+
             } else {
                 $message = "Error: " . $stmt->error;
             }

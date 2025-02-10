@@ -18,8 +18,9 @@
             $sql = "SELECT user_id, username, password_hash FROM users WHERE username = ?";
         } elseif (!empty($_POST['email'])) {
             $login = trim($_POST['email']);
-            $sql = "SELECT user_id, email, password_hash FROM users WHERE email = ?";
+            $sql = "SELECT user_id, username, password_hash FROM users WHERE email = ?";  // Always fetch username
         }
+
 
         if (!empty($login) && !empty($password)) {
             if ($stmt = $conn->prepare($sql)) {

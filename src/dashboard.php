@@ -152,8 +152,6 @@
         </div>
     </div>
 
-
-
     <script>
         function switchTab(event, tabName) {
             var i, tabContent, tabLinks;
@@ -180,9 +178,6 @@
             document.getElementById("upcoming-events").style.display = "block";
         });
     </script>
-
-
-
 
 </body>
 </html>
