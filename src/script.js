@@ -72,19 +72,10 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("deleteModal").style.display = "flex"; // Fix display issue
     }
 
-    // Close edit modal
-    function closeEditModal() {
-        document.getElementById("editModal").style.display = "none";
-    }
-
-    // Close delete modal
-    function closeDeleteModal() {
-        document.getElementById("deleteModal").style.display = "none";
-    }
-
     // Handling the form submission for editing event
     document.getElementById("editEventForm")?.addEventListener("submit", function (event) {
         event.preventDefault();
+
         const eventId = document.getElementById("editEventId").value;
         const name = document.getElementById("editEventName").value;
         const description = document.getElementById("editEventDescription").value;
@@ -98,16 +89,35 @@ document.addEventListener("DOMContentLoaded", function () {
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onload = function () {
             if (xhr.status === 200) {
-                // Reload the page or update the event in the UI
-                location.reload();
+                // Close the modal after the event is updated
+                closeEditModal();  // Ensure this function is available to close the modal
+
+                // Optionally, you can update the UI with the new event data dynamically without a full reload
+                updateEventInUI(eventId, name, description, location, date, time);
+                
+                location.reload(); 
+                // Alert the user about the successful update
+                alert("Event updated successfully!");
             } else {
                 alert("Error updating event.");
             }
         };
 
         xhr.send(`event_id=${eventId}&name=${encodeURIComponent(name)}&description=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}&date=${date}&time=${time}`);
-        
     });
+
+    // Function to update the event in the UI after submission (without page reload)
+    function updateEventInUI(eventId, name, description, location, date, time) {
+        // Find the event in the UI and update the information (this depends on your specific HTML structure)
+        const eventElement = document.getElementById(`event-${eventId}`);  // Assuming each event has a unique ID in the DOM
+        if (eventElement) {
+            eventElement.querySelector(".event-name").textContent = name;
+            eventElement.querySelector(".event-description").textContent = description;
+            eventElement.querySelector(".event-location").textContent = location;
+            eventElement.querySelector(".event-date").textContent = date;
+            eventElement.querySelector(".event-time").textContent = time;
+        }
+    }
 
     // Handling the delete event action
     function confirmDeleteEvent() {
@@ -132,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-// Delete modal helper foor closing the pop-up
+// Delete modal helper for closing the pop-up
 const modal = document.getElementById("deleteModal");
 const closeButton = document.getElementById("closeDeleteModal");
 
@@ -154,7 +164,7 @@ window.addEventListener("click", function(event) {
 });
 
 
-// Edit modal helper foor closing the pop-up
+// Edit modal helper for closing the pop-up
 const editModal = document.getElementById("editModal");
 const closeEditButton = document.querySelector(".btn-cancel");  // Using class to select Cancel button
 
@@ -172,5 +182,26 @@ closeEditButton.addEventListener("click", function() {
 window.addEventListener("click", function(event) {
     if (event.target === editModal) { // Check if the user clicked outside the modal-content
         closeEditModal();
+    }
+});
+
+// Get elements for help modal
+const helpModal = document.getElementById("helpModal");
+const helpButton = document.getElementById("helpButton");
+
+// Open the help modal
+helpButton.addEventListener("click", function () {
+    helpModal.style.display = "flex";
+});
+
+// Close the help modal
+function closeHelpModal() {
+    helpModal.style.display = "none";
+}
+
+// Close modal when clicking outside of content
+window.addEventListener("click", function (event) {
+    if (event.target.classList.contains("help-modal")) {
+        closeHelpModal();
     }
 });

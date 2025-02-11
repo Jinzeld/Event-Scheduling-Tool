@@ -209,8 +209,30 @@
             </div>
         </div>
     </div>
-        
-        <script src="script.js"></script> 
+
+    <!-- Help Button -->
+    <button id="helpButton" class="help-btn">?</button>
+
+    <!-- Help Modal -->
+    <div id="helpModal" class="help-modal">
+        <div class="help-modal-content">
+            <span class="help-close-btn" onclick="closeHelpModal()">&times;</span>
+            <h2>Help & Information</h2>
+            <h3>Welcome to your dashboard! Here are some key features:</h3>
+            <br>
+            <ul>
+                <li><strong>Create Event:</strong> To create an event click on the create event button on the middle of the nav-bar section.</li>
+                <br>
+                <li><strong>Add Events:</strong> When on the add event page you can fill out the required input boxes for Title of event, Description, Location, Date, and time to complete the event form then your can click submit and your done.</li>
+                <br>
+                <li><strong>Back to dashboard:</strong> To head back to the dashboard just click on the logo on that nav-bar to go back to dashboard.</li>
+            </ul>
+            <br><br>
+            <h3>Click anywhere outside this box or press the close button to exit.</h3>
+        </div>
+    </div>
+
+    <script src="script.js"></script> 
 
 </body>
 </html>
