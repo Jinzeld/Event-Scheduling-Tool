@@ -31,21 +31,21 @@ html, body{
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 60px; /* Increases spacing between elements */
+    gap: 60px; 
     text-align: center;
-    padding: 50px; /* Adds more padding */
-    max-width: 1500px; /* Increase max size */
-    width: 95%; /* Ensures it adjusts dynamically */
-    margin: 0 auto; /* Centers the container */
+    padding: 50px; 
+    max-width: 1500px; 
+    width: 95%; 
+    margin: 0 auto; 
     margin-top: 100px;
 }
 
 .main-content {
-    flex: 1.5; /* Increases its share of space */
-    max-width: 750px; /* Allows it to be larger */
+    flex: 1.5; 
+    max-width: 750px; 
     text-align: left;
-    min-width: 400px; /* Prevents it from becoming too small */
-    font-size: 1.3em; /* Makes text bigger */
+    min-width: 400px;
+    font-size: 1.3em; 
 }
 
 .main-content h1 {

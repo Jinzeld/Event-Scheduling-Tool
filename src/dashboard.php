@@ -47,7 +47,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Your Events</title>
-    <link rel="stylesheet" href="../style/dashboard.css">
+    <link rel="stylesheet" href="../style/Dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
@@ -92,11 +92,17 @@
                                 <p class="event-description"><?php echo nl2br(htmlspecialchars($event['description'])); ?></p>
                             </div>
                             <div class="event-actions">
-                                <a href="editEvent.php?event_id=<?php echo $event['event_id']; ?>" title="Edit">
+                                <a href="#" title="Edit" 
+                                    data-id="<?php echo $event['id']; ?>"
+                                    data-name="<?php echo htmlspecialchars($event['name']); ?>"
+                                    data-description="<?php echo htmlspecialchars($event['description']); ?>"
+                                    data-location="<?php echo htmlspecialchars($event['location']); ?>"
+                                    data-date="<?php echo $event['date']; ?>"
+                                    data-time="<?php echo $event['time']; ?>">
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <a href="deleteEvent.php?event_id=<?php echo $event['event_id']; ?>" title="Delete" class="delete-btn"
-                                onclick="return confirm('Are you sure you want to delete this event?');">
+                                <a href="#" title="Delete" class="delete-btn" 
+                                    data-id="<?php echo $event['id']; ?>">
                                     <i class="fa fa-trash"></i>
                                 </a>
                             </div>
@@ -133,11 +139,17 @@
                                 <p class="event-description"><?php echo nl2br(htmlspecialchars($event['description'])); ?></p>
                             </div>
                             <div class="event-actions">
-                                <a href="editEvent.php?event_id=<?php echo $event['event_id']; ?>" title="Edit">
+                                <a href="#" title="Edit" 
+                                    data-id="<?php echo $event['id']; ?>"
+                                    data-name="<?php echo htmlspecialchars($event['name']); ?>"
+                                    data-description="<?php echo htmlspecialchars($event['description']); ?>"
+                                    data-location="<?php echo htmlspecialchars($event['location']); ?>"
+                                    data-date="<?php echo $event['date']; ?>"
+                                    data-time="<?php echo $event['time']; ?>">
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <a href="deleteEvent.php?event_id=<?php echo $event['event_id']; ?>" title="Delete" class="delete-btn"
-                                onclick="return confirm('Are you sure you want to delete this event?');">
+                                <a href="#" title="Delete" class="delete-btn" 
+                                    data-id="<?php echo $event['id']; ?>">
                                     <i class="fa fa-trash"></i>
                                 </a>
                             </div>
@@ -152,32 +164,53 @@
         </div>
     </div>
 
-    <script>
-        function switchTab(event, tabName) {
-            var i, tabContent, tabLinks;
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h2>Edit Event</h2>
+            <form id="editEventForm">
+                <input type="hidden" id="editEventId">
+                <div class="form-group">
+                    <label for="editEventName">Name:</label>
+                    <input type="text" id="editEventName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editEventDescription">Description:</label>
+                    <textarea id="editEventDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editEventLocation">Location:</label>
+                    <input type="text" id="editEventLocation" required>
+                </div>
+                <div class="form-group">
+                    <label for="editEventDate">Date:</label>
+                    <input type="date" id="editEventDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="editEventTime">Time:</label>
+                    <input type="time" id="editEventTime" required>
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="btn-submit">Update</button>
+                    <button type="button" class="btn-cancel" onclick="closeEditModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-            // Hide all tab contents
-            tabContent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabContent.length; i++) {
-                tabContent[i].style.display = "none";
-            }
-
-            // Remove "active" class from all tabs
-            tabLinks = document.getElementsByClassName("tab-link");
-            for (i = 0; i < tabLinks.length; i++) {
-                tabLinks[i].classList.remove("active");
-            }
-
-            // Show the selected tab
-            document.getElementById(tabName).style.display = "block";
-            event.currentTarget.classList.add("active");
-        }
-
-        // Ensure the first tab is shown by default
-        document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById("upcoming-events").style.display = "block";
-        });
-    </script>
+    <!-- Delete Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <h2>Are you sure you want to delete this event?</h2>
+            <input type="hidden" id="deleteEventId">
+            <div class="form-buttons">
+                <button onclick="confirmDeleteEvent()" class="btn-delete">Delete</button>
+                <button id="closeDeleteModal" class="btn-cancel">Cancel</button> <!-- Added closeDeleteModal button -->
+            </div>
+        </div>
+    </div>
+        
+        <script src="script.js"></script> 
 
 </body>
 </html>

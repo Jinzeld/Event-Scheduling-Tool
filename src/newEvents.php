@@ -29,6 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bind_param("isssss", $user_id, $title, $description, $location, $event_date, $event_time);
             if ($stmt->execute()) {
                 $success = "Event created successfully!";
+                header("Location: dashboard.php");
             } else {
                 $error = "Something went wrong. Please try again.";
             }
