@@ -46,12 +46,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Event - EventSync</title>
-    <link rel="stylesheet" href="../style/Event.css">
+    <link rel="stylesheet" href="../style/event.css">
 </head>
 <body>
 
     <nav class="navbar">
         <a href="dashboard.php" class="nav-brand">EventSync</a>
+        <a href="dashboard.php" class="nav-dashboard">Dashboard</a>
+        <a href="logout.php" class="nav-link">Logout</a>
     </nav>
 
     <div class="container">
