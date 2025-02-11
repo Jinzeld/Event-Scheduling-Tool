@@ -18,7 +18,7 @@
 </head>
 <body>
     <div class="header">
-        <a href="./index.php"><h2 style="font-style: italic;">Eventsync</h2></a>
+        <a href="./index.php"><h2 style="font-style: italic;">EventSync</h2></a>
         <div>
             <a href="./src/signIn.php">Sign In</a>
             <a href="./src/signup.php" class="btn btn-primary">Sign Up</a>

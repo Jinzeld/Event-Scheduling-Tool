@@ -68,7 +68,7 @@
 
     <!-- Navbar -->
     <nav class="navbar">
-        <a href="../index.php" class="nav-brand">Eventsync</a>
+        <a href="../index.php" class="nav-brand">EventSync</a>
     </nav>
 
     <div class="container">

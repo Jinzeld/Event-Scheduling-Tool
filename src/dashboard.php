@@ -54,7 +54,7 @@
 
     <!-- Navbar -->
     <nav class="navbar">
-        <a href="dashboard.php" class="nav-brand">Eventsync</a>
+        <a href="dashboard.php" class="nav-brand">EventSync</a>
         <a href="newEvents.php" class="nav-events">Create Events +</a>
         <a href="logout.php" class="nav-link">Logout</a>
     </nav>
