@@ -49,6 +49,14 @@
     <title>Dashboard - Your Events</title>
     <link rel="stylesheet" href="../style/Dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+
+        .add-image-icon:hover {
+            color:rgb(187, 147, 255);
+            transform: scale(1.1);
+        }
+
+    </style>
 </head>
 <body>
 
@@ -79,6 +87,7 @@
                         $hasUpcomingEvents = true; ?>
                         <li class="event-item upcoming-event">
                             <div class="event-info">
+                                <!-- event info -->
                                 <h3 class="event-name"><?php echo htmlspecialchars($event['name']); ?></h3>
                                 <p class="event-date">
                                     <i class="fa fa-calendar"></i> <?php echo date("F j, Y", strtotime($event['date'])); ?>
@@ -91,7 +100,34 @@
                                 </p>
                                 <p class="event-description"><?php echo nl2br(htmlspecialchars($event['description'])); ?></p>
                             </div>
+
+                         
+                            <!-- Image Display Area (If an image exists) -->
+                            <div class="event-image">
+                                <?php if (!empty($event['image_url'])): ?>
+                                    <img src="<?php echo htmlspecialchars($event['image_url']); ?>" alt="Event Image" />
+                                <?php endif; ?>
+                            </div>
+
+                            <!-- Add Image Icon -->
+                            <div class="image-upload">
+                                <input 
+                                    type="file" 
+                                    id="imageUpload-<?php echo $event['id']; ?>" 
+                                    class="image-input" 
+                                    accept="image/*" 
+                                    style="display:none" 
+                                    onchange="handleImageUpload(this, <?php echo $event['id']; ?>)"
+                                />
+                            </div>
+                            
+                            <!-- Event action icons -->
                             <div class="event-actions">
+                                 <i 
+                                    class="fa fa-image add-image-icon" 
+                                    onclick="document.getElementById('imageUpload-<?php echo $event['id']; ?>').click()" 
+                                    title="Add Image"
+                                ></i>
                                 <a href="#" title="Edit" 
                                     data-id="<?php echo $event['id']; ?>"
                                     data-name="<?php echo htmlspecialchars($event['name']); ?>"
@@ -99,11 +135,11 @@
                                     data-location="<?php echo htmlspecialchars($event['location']); ?>"
                                     data-date="<?php echo $event['date']; ?>"
                                     data-time="<?php echo $event['time']; ?>">
-                                    <i class="fa fa-edit"></i>
+                                    <i class="fa fa-edit" title="Edit"></i>
                                 </a>
                                 <a href="#" title="Delete" class="delete-btn" 
                                     data-id="<?php echo $event['id']; ?>">
-                                    <i class="fa fa-trash"></i>
+                                    <i class="fa fa-trash" title="Delete"></i>
                                 </a>
                             </div>
                         </li>

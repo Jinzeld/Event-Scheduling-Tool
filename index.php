@@ -30,7 +30,7 @@
             <p>We make it easy for you to take down your events and keep track of your schedule!</p>
             <div class="cta-buttons">
                 <a href="./src/signup.php" class="btn btn-primary">Create your event ▶</a>
-                <a href="#" class="btn btn-secondary">See how it works ▶</a>
+               <!-- <a href="#" class="btn btn-secondary">See how it works ▶</a> -->
             </div>
         </div>
 
