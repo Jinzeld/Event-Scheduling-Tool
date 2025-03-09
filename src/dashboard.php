@@ -58,22 +58,47 @@
             transform: scale(1.1);
         }
 
-        .event-image {
-            width: 100%; /* Make sure it takes full width of the container */   
-            max-width: 300px; /* Set a max width so it's not too large */
-            margin: 20px auto; /* Center the image */
+        .event-image-container {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+            margin: 20px auto;
             margin-right: 150px;
             text-align: center;
         }
 
-        .event-image img {
-            width: 100%; /* Make image responsive */
-            height: 200px; /* Maintain aspect ratio */
-            border-radius: 10px; /* Rounded corners */
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2); /* Soft shadow */
-            object-fit: cover; /* Ensure it fills the space properly */
+        .event-image {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
         }
 
+        .event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .delete-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color:rgb(187, 147, 255);
+            color: white;
+            padding: 5px;
+            border-radius: 10%;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .event-image:hover .delete-icon {
+            opacity: 1;
+        }
 
     </style>
 </head>
@@ -122,10 +147,17 @@
                             </div>
 
                          
-                            <!-- Image Display Area (If an image exists) -->
-                            <div class="event-image">
+                            <!-- Inside the event loop in dashboard.php -->
+                            <div class="event-image-container">
                                 <?php if (!empty($event['image_path'])): ?>
-                                    <img src="../image-upload-micro-A/uploads/<?= htmlspecialchars($event['image_path']) ?>" alt="Event Image" />
+                                    <div class="event-image">
+                                        <img src="../image-upload-micro-A/uploads/<?= htmlspecialchars($event['image_path']) ?>" alt="Event Image" />
+
+                                        <!-- delete image icon -->
+                                        <div class="delete-icon" data-id="<?= $event['id'] ?>">
+                                            <i class="fa fa-trash"></i>
+                                        </div>
+                                    </div>
                                 <?php endif; ?>
                             </div>
 

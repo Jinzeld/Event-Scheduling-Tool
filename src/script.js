@@ -205,3 +205,38 @@ window.addEventListener("click", function (event) {
         closeHelpModal();
     }
 });
+
+
+// Add this to your script.js or within a <script> tag in dashboard.php
+document.addEventListener('DOMContentLoaded', function () {
+    const deleteIcons = document.querySelectorAll('.delete-icon');
+
+    deleteIcons.forEach(icon => {
+        icon.addEventListener('click', function (e) {
+            e.preventDefault();
+            const eventId = this.getAttribute('data-id');
+
+            if (confirm('Are you sure you want to delete this image?')) {
+                fetch('../image-upload-micro-A/delete_image.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `event_id=${eventId}`,
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Image deleted successfully');
+                            location.reload(); // Reload the page to reflect changes
+                        } else {
+                            alert('Failed to delete image: ' + data.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
+        });
+    });
+});
