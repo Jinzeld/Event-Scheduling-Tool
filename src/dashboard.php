@@ -15,14 +15,15 @@
     $user_id = $_SESSION["user_id"];
     $events = [];
 
-    $sql = "SELECT event_id, title, description, location, event_date, event_time FROM events WHERE user_id = ?";
+    $sql = "SELECT event_id, title, description, location, event_date, event_time, image_path FROM events WHERE user_id = ?";
+    
     if ($stmt = $conn->prepare($sql)) {
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
-        $stmt->store_result();
+        $stmt->store_result();  
         
         // Bind result variables
-        $stmt->bind_result($id, $title, $description, $location, $event_date, $event_time);
+        $stmt->bind_result($id, $title, $description, $location, $event_date, $event_time, $image_path);
         
         while ($stmt->fetch()) {
             $events[] = [
@@ -31,7 +32,8 @@
                 'description' => $description,
                 'location' => $location,
                 'date' => $event_date,
-                'time' => $event_time
+                'time' => $event_time,
+                'image_path' => $image_path
             ];
         }
         $stmt->close();
@@ -56,6 +58,23 @@
             transform: scale(1.1);
         }
 
+        .event-image {
+            width: 100%; /* Make sure it takes full width of the container */   
+            max-width: 300px; /* Set a max width so it's not too large */
+            margin: 20px auto; /* Center the image */
+            margin-right: 150px;
+            text-align: center;
+        }
+
+        .event-image img {
+            width: 100%; /* Make image responsive */
+            height: 200px; /* Maintain aspect ratio */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2); /* Soft shadow */
+            object-fit: cover; /* Ensure it fills the space properly */
+        }
+
+
     </style>
 </head>
 <body>
@@ -65,6 +84,7 @@
         <a href="dashboard.php" class="nav-brand">EventSync</a>
         <a href="newEvents.php" class="nav-events">Create Events +</a>
         <a href="logout.php" class="nav-link">Logout</a>
+        
     </nav>
     
     <div class="container">
@@ -104,30 +124,34 @@
                          
                             <!-- Image Display Area (If an image exists) -->
                             <div class="event-image">
-                                <?php if (!empty($event['image_url'])): ?>
-                                    <img src="<?php echo htmlspecialchars($event['image_url']); ?>" alt="Event Image" />
+                                <?php if (!empty($event['image_path'])): ?>
+                                    <img src="../image-upload-micro-A/uploads/<?= htmlspecialchars($event['image_path']) ?>" alt="Event Image" />
                                 <?php endif; ?>
                             </div>
 
-                            <!-- Add Image Icon -->
-                            <div class="image-upload">
+                            <!-- Image Upload Form -->
+                            <form action="../image-upload-micro-A/upload_image.php" method="POST" enctype="multipart/form-data">
+                                <input type="hidden" name="event_id" value="<?php echo $event['id']; ?>">
+                                
+                                <!-- File input (visible after clicking the icon) -->
                                 <input 
                                     type="file" 
+                                    name="image" 
                                     id="imageUpload-<?php echo $event['id']; ?>" 
                                     class="image-input" 
                                     accept="image/*" 
                                     style="display:none" 
-                                    onchange="handleImageUpload(this, <?php echo $event['id']; ?>)"
+                                    onchange="this.form.submit();" 
                                 />
-                            </div>
-                            
                             <!-- Event action icons -->
-                            <div class="event-actions">
-                                 <i 
-                                    class="fa fa-image add-image-icon" 
-                                    onclick="document.getElementById('imageUpload-<?php echo $event['id']; ?>').click()" 
-                                    title="Add Image"
-                                ></i>
+                            <div class="event-actions"> 
+                                <a href="#">
+                                    <i 
+                                        class="fa fa-image add-image-icon" 
+                                        onclick="document.getElementById('imageUpload-<?php echo $event['id']; ?>').click()" 
+                                        title="Add Image"
+                                    ></i>
+                                </a>
                                 <a href="#" title="Edit" 
                                     data-id="<?php echo $event['id']; ?>"
                                     data-name="<?php echo htmlspecialchars($event['name']); ?>"
