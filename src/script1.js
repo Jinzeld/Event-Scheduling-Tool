@@ -290,12 +290,23 @@ bgColorPicker.addEventListener('input', (event) => {
 
     // Get the user_mode (dark or light)
     const user_mode = body.classList.contains('dark-mode') ? 'dark' : 'light';
-
-    // Send the selected color, user_id, and user_mode to the PHP script
-    sendColorToServer(user_id, user_mode, color);
 });
 
-function sendColorToServer(user_id, user_mode, color) {
+document.getElementById('colorForm').addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent the form from submitting the traditional way
+
+    // Log to confirm the form submission is intercepted
+    console.log('Form submission intercepted');
+
+    const formData = new FormData(this); // Get form data
+    const user_id = formData.get('user_id'); // Get user_id from the form
+    const user_mode = document.getElementById('darkModeToggle').checked ? 'dark' : 'light'; // Get user_mode
+    const user_color = document.getElementById('bgColorPicker').value; // Get selected color directly from the color picker
+
+    // Log the data being sent
+    console.log('Sending data:', { user_id, user_mode, user_color });
+
+    // Send data to the server using fetch
     fetch('../micro-B-visual/update_preference.php', {
         method: 'POST',
         headers: {
@@ -304,13 +315,21 @@ function sendColorToServer(user_id, user_mode, color) {
         body: JSON.stringify({
             user_id: user_id,
             user_mode: user_mode,
-            user_color: color
+            user_color: user_color
         }),
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(data => {
+        console.log('Server response:', data); // Log the server response
         if (data.success) {
             console.log('Color updated successfully');
+            // Refresh the page to apply changes
+            window.location.reload();
         } else {
             console.error('Error updating color:', data.error);
         }
@@ -318,5 +337,4 @@ function sendColorToServer(user_id, user_mode, color) {
     .catch((error) => {
         console.error('Error:', error);
     });
-}
-
+});

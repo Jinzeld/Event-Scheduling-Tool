@@ -7,17 +7,6 @@
     
 }
 
-body {
-    background: linear-gradient(to bottom, #4e4e4e, #515151, #4f4f4f, #5a3d7a);
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    flex-direction: column;
-    overflow: auto;
-}
-
 .navbar {
     width: 100%;
     padding: 15px 30px;

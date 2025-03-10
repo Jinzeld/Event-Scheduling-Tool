@@ -6,18 +6,6 @@
     font-family: Arial, sans-serif;
 }
 
-/* Background */
-body {
-    background: linear-gradient(to bottom, #4e4e4e, #515151, #4f4f4f, #5a3d7a);
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    flex-direction: column;
-    overflow: auto;
-}
-
 /* Navbar Styling */
 .navbar {
     width: 100%;
@@ -53,27 +41,6 @@ body {
     transition: all 0.3s ease-in-out;
 }
 
-/* Create Events Button */
-.nav-events {
-    background: linear-gradient(to right, #7a3d9d, #512da8);
-    color: white;
-}
-
-.nav-events:hover {
-    background: linear-gradient(to right, #9b59b6, #673ab7);
-    transform: scale(1.05);
-}
-
-/* Logout Button */
-.nav-link {
-    background: linear-gradient(to right, #7a3d9d, #512da8);
-    color: white;
-}
-
-.nav-link:hover {
-    background: linear-gradient(to right, #9b59b6, #673ab7);
-    transform: scale(1.05);
-}
 
 /* Welcome Message */
 .welcome-message {
@@ -127,10 +94,6 @@ body {
     transition: background-color 0.3s;
 }
 
-.tab-link.active {
-    background-color: #5a3d7a;
-    color: white;
-}
 
 .tab-link:hover {
     background-color: #777;
@@ -217,9 +180,6 @@ body {
     font-size: 18px;
 }
 
-.event-actions a:hover {
-    color:rgb(187, 147, 255);
-}
 
 /* No Events Message */
 .no-events {
@@ -390,24 +350,6 @@ button:focus {
     outline: none;
 }
 
-/* Unique Help Button Styling */
-.help-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #955ffb;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
-    cursor: pointer;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 /* Unique Help Modal Styling */
 .help-modal {

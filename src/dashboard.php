@@ -15,6 +15,29 @@
     $user_id = $_SESSION["user_id"];
     $events = [];
 
+    // Fetch user preferences (color and mode) from the database
+    $user_color = "#5a3d7a"; // Default color
+    $user_mode = "Dark"; // Default mode
+
+    $sql = "SELECT user_color, user_mode FROM users WHERE user_id = ?";
+    if ($stmt = $conn->prepare($sql)) {
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $stmt->bind_result($db_user_color, $db_user_mode);
+        $stmt->fetch();
+        $stmt->close();
+    
+        // Override defaults if values exist in the database
+        if ($db_user_color) {
+            $user_color = $db_user_color;
+        }
+        if ($db_user_mode) {
+            $user_mode = $db_user_mode;
+        }
+    } else {
+        echo "Error: " . $conn->error;
+    }
+
     $sql = "SELECT event_id, title, description, location, event_date, event_time, image_path FROM events WHERE user_id = ?";
     
     if ($stmt = $conn->prepare($sql)) {
@@ -50,12 +73,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Your Events</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="../style/Dashboard1.css">
+    <link rel="stylesheet" href="../style/Dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
+        body {
+            background: linear-gradient(to bottom, #4e4e4e, #515151, #4f4f4f, <?php echo $user_color; ?>);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+            overflow: auto;
+        }
+
+        /* Create Events Button */
+        .nav-events {
+            background: linear-gradient(to right, #7a3d9d, <?php echo $user_color; ?>);
+            color: white;
+        }
+
+        .nav-events:hover {
+            background: linear-gradient(to right, #9b59b6,<?php echo $user_color; ?>);
+            transform: scale(1.05);
+        }
+
+        /* Logout Button */
+        .nav-link {
+            background: linear-gradient(to right, #7a3d9d, <?php echo $user_color; ?>);
+            color: white;
+        }
+
+        .nav-link:hover {
+            background: linear-gradient(to right, #9b59b6, <?php echo $user_color; ?>);
+            transform: scale(1.05);
+        }
+
+        .tab-link.active {
+            background-color: <?php echo $user_color; ?>;
+            color: white;
+        }
 
         .add-image-icon:hover {
-            color:rgb(187, 147, 255);
+            color: <?php echo $user_color; ?>;
             transform: scale(1.1);
         }
 
@@ -74,7 +134,7 @@
             height: 200px;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: <?php echo $user_color; ?>;
         }
 
         .event-image img {
@@ -88,7 +148,7 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            background-color:rgb(187, 147, 255);
+            background-color: <?php echo $user_color; ?>;
             color: white;
             padding: 5px;
             border-radius: 10%;
@@ -101,6 +161,27 @@
             opacity: 1;
         }
 
+        .apply-button {
+            margin-top: 0.5rem; /* mt-2 */
+            padding: 0.5rem; /* p-2 */
+            background-color: #4e4e4e;
+            color: white; /* text-white */
+            border-radius: 0.25rem; /* rounded */
+            width: 100%; /* w-full */
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .apply-button:hover {
+            background-color: <?php echo $user_color; ?>;
+        }
+
+        .event-actions a:hover {
+
+            color: <?php echo $user_color; ?>;
+        }
+
         #settingsDropdown {
             position: absolute;
             right: 0;
@@ -109,7 +190,7 @@
             width: 12rem; 
             background-color:rgb(143, 139, 139); /* Custom background color */
             border-radius: 0.5rem; /* rounded-lg */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-lg */
+            box-shadow: <?php echo $user_color; ?>; /* shadow-lg */
             display: none; /* hidden by default */
         }
 
@@ -119,6 +200,8 @@
 
         #settingsButton{
             margin-left: 700px;
+            height: 50px;
+            width: 50px;
         }
         
         .switch {
@@ -159,11 +242,30 @@
         }
 
         input:checked + .slider {
-            background-color:rgb(108, 58, 195);  
+            background-color: <?php echo $user_color; ?>;  
         }
 
         input:checked + .slider:before {
             transform: translateX(14px);
+        }
+
+        /* Unique Help Button Styling */
+        .help-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color:<?php echo $user_color; ?>;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
     </style>
@@ -194,13 +296,15 @@
                                 <input type="checkbox" id="darkModeToggle">
                                 <span class="slider"></span>
                             </label>
-                        </div>
+                        </div> 
 
                         <!-- Background Color Picker -->
                         <div class="mt-2">
                             <span class="text-gray-800">Background Color</span>
-                            <input type="color" id="bgColorPicker" class="w-full h-8 mt-1">
+                            <input type="color" id="bgColorPicker" class="w-full h-8 mt-1" value="<?php echo $user_color; ?>">
                         </div>
+                        <!-- Apply Changes Button -->
+                        <button type="submit" class="apply-button">Apply Changes</button>
                     </div>
                 </form>
             </div>
@@ -416,6 +520,6 @@
         </div>
     </div>
 
-    <script src="script.js"></script> 
+    <script src="script1.js"></script> 
 </body>
 </html>

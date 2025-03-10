@@ -9,6 +9,31 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     exit;
 }
 
+$user_id = $_SESSION["user_id"];
+
+// Fetch user preferences (color and mode) from the database
+$user_color = "#5a3d7a"; // Default color
+$user_mode = "Dark"; // Default mode
+
+$sql = "SELECT user_color, user_mode FROM users WHERE user_id = ?";
+if ($stmt = $conn->prepare($sql)) {
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $stmt->bind_result($db_user_color, $db_user_mode);
+    $stmt->fetch();
+    $stmt->close();
+
+    // Override defaults if values exist in the database
+    if ($db_user_color) {
+        $user_color = $db_user_color;
+    }
+    if ($db_user_mode) {
+        $user_mode = $db_user_mode;
+    }
+} else {
+    echo "Error: " . $conn->error;
+}
+
 $error = "";
 $success = "";
 
@@ -47,6 +72,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Event - EventSync</title>
     <link rel="stylesheet" href="../style/event.css">
+    <style>
+        body {
+        background: linear-gradient(to bottom, #4e4e4e, #515151, #4f4f4f, <?php echo $user_color; ?>);
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        flex-direction: column;
+        overflow: auto;
+    }
+
+    /* Create Events Button */
+    .nav-dashboard {
+        background: linear-gradient(to right, #7a3d9d, <?php echo $user_color; ?>);
+        color: white;
+    }
+
+    .nav-dashboard:hover {
+        background: linear-gradient(to right, #9b59b6, <?php echo $user_color; ?>);
+        transform: scale(1.05);
+    }
+
+    /* Logout Button */
+    .nav-link {
+        background: linear-gradient(to right, #7a3d9d, <?php echo $user_color; ?>);
+        color: white;
+    }
+
+    .nav-link:hover {
+        background: linear-gradient(to right, #9b59b6, <?php echo $user_color; ?>);
+        transform: scale(1.05);
+    }
+
+    .submit-btn:hover {
+        background-color: <?php echo $user_color; ?>;
+    }
+
+    </style>
 </head>
 <body>
 
