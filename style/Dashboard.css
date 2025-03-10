@@ -229,16 +229,6 @@
     color: #fff; /* White text inside input fields */
 }
 
-.modal-content button {
-    background-color: #816e9e;
-    color: #fff;
-    padding: 10px 20px;
-    margin: 10px 5px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
 
 /* Delete Modal Content */
 #deleteModal .modal-content {
@@ -317,33 +307,6 @@ button {
     font-size: 1rem;
     transition: background-color 0.3s ease;
     border: none;
-}
-
-.btn-submit {
-    background-color: #85ff89;
-    color: white;
-}
-
-.btn-submit:hover {
-    background-color: #87ff8d;
-}
-
-.btn-cancel {
-    background-color: #ff9088;
-    color: white;
-}
-
-.btn-cancel:hover {
-    background-color: #ff918f;
-}
-
-.btn-delete {
-    background-color: #ff8989;
-    color: white;
-}
-
-.btn-delete:hover {
-    background-color: #ff8888;
 }
 
 button:focus {

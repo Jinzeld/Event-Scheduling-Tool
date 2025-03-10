@@ -38,6 +38,14 @@
         echo "Error: " . $conn->error;
     }
 
+    // Determine gradient colors based on user_mode
+    if ($user_mode === "dark") {
+        $gradient_colors = "#4e4e4e, #515151, #4f4f4f, $user_color"; // Dark mode gradient
+    } else {
+        $gradient_colors = "rgb(123, 121, 121),rgb(129, 129, 129) ,rgb(106, 101, 101), $user_color"; // Light mode gradient
+    }
+
+
     $sql = "SELECT event_id, title, description, location, event_date, event_time, image_path FROM events WHERE user_id = ?";
     
     if ($stmt = $conn->prepare($sql)) {
@@ -77,8 +85,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         body {
-            background: linear-gradient(to bottom, #4e4e4e, #515151, #4f4f4f, <?php echo $user_color; ?>);
-            color: #333;
+            background: linear-gradient(to bottom, <?php echo $gradient_colors; ?>);
+            color: <?php echo $user_mode === "Dark" ? "#fff" : "#333"; ?>;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -249,6 +257,44 @@
             transform: translateX(14px);
         }
 
+        .modal-content button {
+            background-color: #4e4e4e;
+            color: #fff;
+            padding: 10px 20px;
+            margin: 10px 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-submit {
+            background-color: #4e4e4e;
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background-color: <?php echo $user_color; ?>;
+        }
+
+        .btn-cancel {
+            background-color: <?php echo $user_color; ?>;
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background-color: <?php echo $user_color; ?>;
+        }
+
+        .btn-delete {
+            background-color:rgb(69, 69, 69);
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: <?php echo $user_color; ?>;
+        }
+
         /* Unique Help Button Styling */
         .help-btn {
             position: fixed;
@@ -293,7 +339,7 @@
                         <div class="flex items-center justify-between">
                             <span class="text-gray-800">Dark Mode</span>
                             <label class="switch">
-                                <input type="checkbox" id="darkModeToggle">
+                                <input type="checkbox" id="darkModeToggle" <?php echo $user_mode === 'dark' ? 'checked' : ''; ?>>
                                 <span class="slider"></span>
                             </label>
                         </div> 
@@ -453,7 +499,7 @@
     </div>
 
     <!-- Edit Modal -->
-    <div id="editModal" class="modal">
+    <div id="editModal" class="modal" style="height: 950px;">
         <div class="modal-content">
             <h2>Edit Event</h2>
             <form id="editEventForm">
