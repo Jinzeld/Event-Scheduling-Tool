@@ -23,14 +23,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['event_id'])) {
 
         // Send a request to the Vercel microservice to delete the image
         $vercel_url = "https://cs-361-micro-a.vercel.app/remove_image";
-        $post_data = ['event_id' => $event_id];
+        $post_data = [
+            'event_id' => $event_id,
+            'image_path' => $image_path // Include the image_path in the request
+        ];
+
+        // Log the request being sent to Vercel as a string with { }
+        $log_request = "Sending to Vercel: {event_id={$event_id}, image_path={$image_path}}";
+        file_put_contents('vercel_request.log', $log_request . "\n", FILE_APPEND);
 
         $ch = curl_init($vercel_url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post_data));
+        
         $vercel_response = curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); // Get HTTP status code
         curl_close($ch);
+
+        // Log the response from Vercel
+        $log_response = "Response from Vercel (HTTP $http_code): " . $vercel_response;
+        file_put_contents('vercel_response.log', $log_response . "\n", FILE_APPEND);
 
         // Decode Vercel response
         $vercel_data = json_decode($vercel_response, true);
