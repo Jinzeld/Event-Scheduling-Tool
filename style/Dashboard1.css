@@ -92,7 +92,7 @@ body {
 }
 
 /* Ensure the container does not overflow */
-.container {    
+.event-container {    
     width: 80%;
     max-width: 800px;
     margin-top: 80px; /* Adjust for the fixed navbar */

@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['image'])) {
         chmod($target_path, 0755); // Make the image publicly readable
         
         // Send image name to Vercel microservice
-        $vercel_url = "https://cs-361-micro-a.vercel.app/";
+        $vercel_url = "https://cs-361-micro-a.vercel.app/upload_image";
         $post_data = [
             'event_id' => $event_id,
             'image_name' => $image_name

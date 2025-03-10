@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const eventId = this.getAttribute('data-id');
 
             if (confirm('Are you sure you want to delete this image?')) {
-                fetch('../image-upload-micro-A/delete_image.php', {
+                fetch('../micro-A-image-upload/delete_image.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
@@ -240,3 +240,83 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+// Toggle user color setting dropdown
+document.addEventListener("DOMContentLoaded", function () {
+    const settingsButton = document.getElementById("settingsButton");
+    const settingsDropdown = document.getElementById("settingsDropdown");
+
+    // Toggle dropdown visibility
+    settingsButton.addEventListener("click", function () {
+        settingsDropdown.style.display =
+            settingsDropdown.style.display === "block" ? "none" : "block";
+    });
+
+    // Hide dropdown when clicking outside
+    document.addEventListener("click", function (event) {
+        if (!settingsButton.contains(event.target) && !settingsDropdown.contains(event.target)) {
+            settingsDropdown.style.display = "none";
+        }
+    });
+});
+
+// Toggle dark mode
+const darkModeToggle = document.getElementById('darkModeToggle');
+const body = document.body;
+
+darkModeToggle.addEventListener('change', (event) => {
+    if (event.target.checked) {
+        body.classList.remove('light-mode');
+        body.classList.add('dark-mode');
+    } else {
+        body.classList.remove('dark-mode');
+        body.classList.add('light-mode');
+    }
+});
+
+
+// Change gradient color in real-time
+const bgColorPicker = document.getElementById('bgColorPicker');
+
+bgColorPicker.addEventListener('input', (event) => {
+    // Get the selected color
+    const color = event.target.value;
+    
+    // Update the gradient color (the first color stop in the gradient)
+    body.style.background = `linear-gradient(to bottom, #4e4e4e, #515151, #4f4f4f, ${color})`;
+
+    // Get the user_id from the hidden input field
+    const user_id = document.getElementById('userId').value;
+
+    // Get the user_mode (dark or light)
+    const user_mode = body.classList.contains('dark-mode') ? 'dark' : 'light';
+
+    // Send the selected color, user_id, and user_mode to the PHP script
+    sendColorToServer(user_id, user_mode, color);
+});
+
+function sendColorToServer(user_id, user_mode, color) {
+    fetch('../micro-B-visual/update_preference.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            user_id: user_id,
+            user_mode: user_mode,
+            user_color: color
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Color updated successfully');
+        } else {
+            console.error('Error updating color:', data.error);
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+

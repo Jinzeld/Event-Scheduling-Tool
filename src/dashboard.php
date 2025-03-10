@@ -49,7 +49,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Your Events</title>
-    <link rel="stylesheet" href="../style/Dashboard.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../style/Dashboard1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
 
@@ -100,19 +101,111 @@
             opacity: 1;
         }
 
+        #settingsDropdown {
+            position: absolute;
+            right: 0;
+            margin-top: 0.5rem; /* mt-2 */
+            height: 12rem;
+            width: 12rem; 
+            background-color:rgb(143, 139, 139); /* Custom background color */
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-lg */
+            display: none; /* hidden by default */
+        }
+
+        #colorForm {
+            padding: 15px;
+        }
+
+        #settingsButton{
+            margin-left: 700px;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 34px;
+            height: 20px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        input:checked + .slider {
+            background-color:rgb(108, 58, 195);  
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(14px);
+        }
+
     </style>
 </head>
 <body>
 
-    <!-- Navbar -->
     <nav class="navbar">
         <a href="dashboard.php" class="nav-brand">EventSync</a>
         <a href="newEvents.php" class="nav-events">Create Events +</a>
         <a href="logout.php" class="nav-link">Logout</a>
-        
     </nav>
     
-    <div class="container">
+    <div class="event-container">
+
+        <div class="relative">
+            <button id="settingsButton" class=" rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600">
+                ⚙️
+            </button>
+            <!-- Dropdown Menu -->
+            <div id="settingsDropdown">
+                <form id="colorForm" method="POST" action="../micro-B-visual/update_preference.php">
+                    <input type="hidden" id="userId" name="user_id" value="<?php echo $user_id; ?>">
+                    <div class="p-2">
+                        <!-- Dark Mode Toggle -->
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-800">Dark Mode</span>
+                            <label class="switch">
+                                <input type="checkbox" id="darkModeToggle">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <!-- Background Color Picker -->
+                        <div class="mt-2">
+                            <span class="text-gray-800">Background Color</span>
+                            <input type="color" id="bgColorPicker" class="w-full h-8 mt-1">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+            
         <h2 class="welcome-message">Welcome, <?php echo htmlspecialchars($username); ?>!</h2>
 
         <h3 class="title">Your Events</h3>
@@ -151,7 +244,7 @@
                             <div class="event-image-container">
                                 <?php if (!empty($event['image_path'])): ?>
                                     <div class="event-image">
-                                        <img src="../image-upload-micro-A/uploads/<?= htmlspecialchars($event['image_path']) ?>" alt="Event Image" />
+                                        <img src="../micro-A-image-upload/uploads/<?= htmlspecialchars($event['image_path']) ?>" alt="Event Image" />
 
                                         <!-- delete image icon -->
                                         <div class="delete-icon" data-id="<?= $event['id'] ?>">
@@ -162,7 +255,7 @@
                             </div>
 
                             <!-- Image Upload Form -->
-                            <form action="../image-upload-micro-A/upload_image.php" method="POST" enctype="multipart/form-data">
+                            <form action="../micro-A-image-upload/upload_image.php" method="POST" enctype="multipart/form-data">
                                 <input type="hidden" name="event_id" value="<?php echo $event['id']; ?>">
                                 
                                 <!-- File input (visible after clicking the icon) -->
@@ -181,7 +274,6 @@
                                     <i 
                                         class="fa fa-image add-image-icon" 
                                         onclick="document.getElementById('imageUpload-<?php echo $event['id']; ?>').click()" 
-                                        title="Add Image"
                                     ></i>
                                 </a>
                                 <a href="#" title="Edit" 
@@ -325,6 +417,5 @@
     </div>
 
     <script src="script.js"></script> 
-
 </body>
 </html>
