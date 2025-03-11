@@ -338,3 +338,122 @@ document.getElementById('colorForm').addEventListener('submit', function (event)
         console.error('Error:', error);
     });
 });
+
+// Toggle the notification dropdown
+function toggleNotifications() {
+    const dropdown = document.getElementById('notification-dropdown');
+    if (dropdown.style.display === 'block') {
+        dropdown.style.display = 'none';
+    } else {
+        dropdown.style.display = 'block';
+        fetchNotifications(); // Fetch notifications when the dropdown is opened
+    }
+}
+
+// Fetch notifications from the server
+function fetchNotifications() {
+    const user_id = document.getElementById('userId').value; // Get user_id from the hidden input field
+
+    fetch('../micro-D-event-alerts/event_notification.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user_id: user_id }) // Send user_id to the server
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.text(); // First, get the response as text
+    })
+    .then(text => {
+        console.log("Raw response:", text); // Log the raw response
+        return JSON.parse(text); // Try to parse it as JSON
+    })
+    .then(data => {
+        if (data.success) {
+            updateNotificationBadge(data.notifications.length);
+            renderNotifications(data.notifications);
+
+            // Notify the user if there are upcoming events
+            if (data.notifications.length > 0) {
+                notifyUser(data.notifications);
+            }
+        } else {
+            console.error('Failed to fetch notifications:', data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching notifications:', error);
+        alert('An error occurred while fetching notifications. Please try again later.'); // Show an alert to the user
+    });
+}
+
+// Update the notification badge count
+function updateNotificationBadge(count) {
+    const badge = document.getElementById('notification-badge');
+    badge.textContent = count;
+    badge.style.display = count > 0 ? 'block' : 'none';
+}
+
+// Render notifications in the dropdown
+function renderNotifications(notifications) {
+    const notificationContent = document.getElementById('notification-content');
+    notificationContent.innerHTML = '';
+
+    if (notifications.length === 0) {
+        notificationContent.innerHTML = '<div class="notification-item">No upcoming events.</div>';
+        return;
+    }
+
+    notifications.forEach(notification => {
+        const notificationItem = document.createElement('div');
+        notificationItem.className = 'notification-item';
+        notificationItem.innerHTML = `
+            <strong>${notification.title}</strong><br>
+            <small>Date: ${notification.event_date}, Time: ${notification.event_time}</small>
+        `;
+        notificationContent.appendChild(notificationItem);
+    });
+}
+
+// Notify the user about upcoming events
+function notifyUser(notifications) {
+    // Example: Show a toast notification for each upcoming event
+    notifications.forEach(notification => {
+        const message = `Upcoming Event: ${notification.title} on ${notification.event_date} at ${notification.event_time}`;
+        showToast(message);
+    });
+}
+
+// Show a toast notification
+function showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.textContent = message;
+
+    document.body.appendChild(toast);
+
+    // Remove the toast after 5 seconds
+    setTimeout(() => {
+        toast.remove();
+    }, 5000);
+}
+
+// // Fetch notifications when the page loads
+// document.addEventListener('DOMContentLoaded', () => {
+//     fetchNotifications(); // Fetch notifications immediately on page load
+
+//     // Periodically check for new notifications (e.g., every 5 minutes)
+//     setInterval(fetchNotifications, 5 * 60 * 1000); // 5 minutes in milliseconds    
+// });
+
+// Close the dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('notification-dropdown');
+    const icon = document.querySelector('.notification-icon');
+    if (!icon.contains(event.target) && !dropdown.contains(event.target)) {
+        dropdown.style.display = 'none';
+    }
+});

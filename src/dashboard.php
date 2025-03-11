@@ -208,6 +208,7 @@
 
         #settingsButton{
             margin-left: 700px;
+            Background-color: <?php echo $user_color; ?>;
             height: 50px;
             width: 50px;
         }
@@ -313,7 +314,83 @@
             justify-content: center;
             align-items: center;
         }
+        /* Notification Container */
+        .notification-container {
+            position: relative;
+            display: inline-block;
+        }
 
+        /* Bell Icon */
+        .notification-icon {
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+            position: relative;
+        }
+
+        /* Notification Badge */
+        .notification-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+        }
+
+        /* Notification Dropdown */
+        .notification-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            color: black;
+            background-color: <?php echo $user_color; ?>;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        /* Notification Item */
+        .notification-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-item:hover {
+            background: linear-gradient(to right, #7a3d9d, <?php echo $user_color; ?>);
+        }
+
+        .toast-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            animation: fadeIn 0.5s, fadeOut 0.5s 4.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -326,9 +403,24 @@
     
     <div class="event-container">
 
+        <!-- Bell Icon and Notification Dropdown -->
+        <div class="notification-container">
+            <input type="hidden" id="userId" name="user_id" value="<?php echo $user_id; ?>">
+            <div class="notification-icon" onclick="toggleNotifications()">
+                <i class="fas fa-bell"></i>
+                <span id="notification-badge" class="notification-badge">0</span>
+            </div>
+            <div id="notification-dropdown" class="notification-dropdown">
+                <div id="notification-content">
+                    <!-- Notifications will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- user settings and preference menu -->
         <div class="relative">
-            <button id="settingsButton" class=" rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600">
-                ⚙️
+            <button id="settingsButton">
+            <i class="fa fa-bars" aria-hidden="true"></i>
             </button>
             <!-- Dropdown Menu -->
             <div id="settingsDropdown">
