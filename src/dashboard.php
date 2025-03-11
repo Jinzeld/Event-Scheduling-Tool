@@ -193,6 +193,7 @@
         #settingsDropdown {
             position: absolute;
             right: 0;
+            margin-right: 650px;
             margin-top: 0.5rem; /* mt-2 */
             height: 12rem;
             width: 12rem; 
@@ -207,7 +208,7 @@
         }
 
         #settingsButton{
-            margin-left: 700px;
+            margin-left: 20px;
             Background-color: <?php echo $user_color; ?>;
             height: 50px;
             width: 50px;
@@ -318,6 +319,7 @@
         .notification-container {
             position: relative;
             display: inline-block;
+            margin-left: 800px;
         }
 
         /* Bell Icon */
@@ -344,7 +346,7 @@
         .notification-dropdown {
             display: none;
             position: absolute;
-            right: 0;
+            right: 25;
             color: black;
             background-color: <?php echo $user_color; ?>;
             border: 1px solid #ccc;
@@ -658,6 +660,6 @@
         </div>
     </div>
 
-    <script src="script1.js"></script> 
+    <script src="script.js"></script> 
 </body>
 </html>

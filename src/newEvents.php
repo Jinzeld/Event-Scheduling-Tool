@@ -1,8 +1,7 @@
 <?php
-
     session_start();
 
-    require_once "config.php"; 
+    require_once "config.php";
 
     if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
         header("Location: signIn.php");
@@ -81,46 +80,44 @@
         <link rel="stylesheet" href="../style/event.css">
         <style>
             body {
-            background: linear-gradient(to bottom, <?php echo $gradient_colors; ?>);
-            color: <?php echo $user_mode === "Dark" ? "#fff" : "#333"; ?>;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            flex-direction: column;
-            overflow: auto;
-        }
+                background: linear-gradient(to bottom, <?php echo $gradient_colors; ?>);
+                color: <?php echo $user_mode === "Dark" ? "#fff" : "#333"; ?>;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                flex-direction: column;
+                overflow: auto;
+            }
 
-        /* Create Events Button */
-        .nav-dashboard {
-            background: linear-gradient(to right, #7a3d9d, <?php echo $user_color; ?>);
-            color: white;
-        }
+            /* Create Events Button */
+            .nav-dashboard {
+                background: linear-gradient(to right, #7a3d9d, <?php echo $user_color; ?>);
+                color: white;
+            }
 
-        .nav-dashboard:hover {
-            background: linear-gradient(to right, #9b59b6, <?php echo $user_color; ?>);
-            transform: scale(1.05);
-        }
+            .nav-dashboard:hover {
+                background: linear-gradient(to right, #9b59b6, <?php echo $user_color; ?>);
+                transform: scale(1.05);
+            }
 
-        /* Logout Button */
-        .nav-link {
-            background: linear-gradient(to right, #7a3d9d, <?php echo $user_color; ?>);
-            color: white;
-        }
+            /* Logout Button */
+            .nav-link {
+                background: linear-gradient(to right, #7a3d9d, <?php echo $user_color; ?>);
+                color: white;
+            }
 
-        .nav-link:hover {
-            background: linear-gradient(to right, #9b59b6, <?php echo $user_color; ?>);
-            transform: scale(1.05);
-        }
+            .nav-link:hover {
+                background: linear-gradient(to right, #9b59b6, <?php echo $user_color; ?>);
+                transform: scale(1.05);
+            }
 
-        .submit-btn:hover {
-            background-color: <?php echo $user_color; ?>;
-        }
-
+            .submit-btn:hover {
+                background-color: <?php echo $user_color; ?>;
+            }
         </style>
     </head>
     <body>
-
         <nav class="navbar">
             <a href="dashboard.php" class="nav-brand">EventSync</a>
             <a href="dashboard.php" class="nav-dashboard">Dashboard</a>
@@ -138,7 +135,8 @@
                 <div class="success-message"><?php echo $success; ?></div>
             <?php endif; ?>
 
-            <form action="newEvents.php" method="POST">
+            <form id="eventForm" action="newEvents.php" method="POST">
+                <input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id; ?>">
                 <label for="title">Event Title:</label>
                 <input type="text" id="title" name="title" required>
 
@@ -156,7 +154,44 @@
 
                 <button type="submit" class="submit-btn">Create Event</button>
             </form>
+
+            <!-- Conflict message display -->
+            <div id="conflictMessage" class="error-message" style="display: none;"></div>
         </div>
 
+        <script>
+            // Checks for event conflict on the event creation page
+            document.getElementById('eventForm').addEventListener('submit', function (e) {
+                e.preventDefault(); // Prevent the form from submitting
+
+                const formData = new FormData(this);
+
+                // Send the event details to check for conflicts
+                fetch('../micro-D-event-alerts/event_conflicts.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // No conflicts, proceed with form submission
+                        document.getElementById('eventForm').submit(); // Submit the form to create the event
+                    } else {
+                        // Conflicts detected, show the message to the user
+                        let conflictMessage = data.message;
+                        if (data.conflicts) {
+                            data.conflicts.forEach(conflict => {
+                                conflictMessage += `\nConflict with event: ${conflict.title} on ${conflict.event_date} at ${conflict.event_time}`;
+                            });
+                        }
+                        alert(conflictMessage); // Show the conflict message in an alert
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking for conflicts:', error);
+                    alert('An error occurred. Please try again.');
+                });
+            });
+        </script>
     </body>
 </html>
