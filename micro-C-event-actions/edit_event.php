@@ -1,11 +1,11 @@
 <?php
     session_start();
-    require_once "../src/config.php"; // Include your database configuration
+    require_once "../src/config.php"; 
 
     
     // Function to send a POST request to the Flask microservice
     function sendSaveRequest($data) {
-        $url = "https://micro-c-event-action.vercel.app/save_event"; // Updated endpoint URL
+        $url = "https://micro-c-event-action.vercel.app/save_event"; // Flask microservice endpoint
 
         // Define separate log files for requests and responses
         $request_log_file = 'vercel_request.log';

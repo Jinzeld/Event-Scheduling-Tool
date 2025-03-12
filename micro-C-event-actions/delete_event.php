@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../src/config.php"; // Include your database configuration
+require_once "../src/config.php";
 
 // Enable error reporting for debugging
 error_reporting(E_ALL);
