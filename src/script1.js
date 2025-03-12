@@ -26,24 +26,85 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("upcoming-events").style.display = "block";
 });
 
-
 // Javascript for updating evets and deleting events
 document.addEventListener("DOMContentLoaded", function () {
 
-    // Attach event listeners to all edit buttons
-    document.querySelectorAll(".event-actions a[title='Edit']").forEach(function (button) {
-        button.addEventListener("click", function (event) {
-            event.preventDefault();
-            let eventId = this.getAttribute("data-id");
-            let name = this.getAttribute("data-name");
-            let description = this.getAttribute("data-description");
-            let location = this.getAttribute("data-location");
-            let date = this.getAttribute("data-date");
-            let time = this.getAttribute("data-time");
+    // // Attach event listeners to all edit buttons
+    // document.querySelectorAll(".event-actions a[title='Edit']").forEach(function (button) {
+    //     button.addEventListener("click", function (event) {
+    //         event.preventDefault();
+    //         let eventId = this.getAttribute("data-id");
+    //         let name = this.getAttribute("data-name");
+    //         let description = this.getAttribute("data-description");
+    //         let location = this.getAttribute("data-location");
+    //         let date = this.getAttribute("data-date");
+    //         let time = this.getAttribute("data-time");
 
-            openEditModal(eventId, name, description, location, date, time);
-        });
-    });
+    //         openEditModal(eventId, name, description, location, date, time);
+    //     });
+    // });
+
+    // // Function for displaying edit modal
+    // function openEditModal(eventId, name, description, location, date, time) {
+    //     document.getElementById("editEventId").value = eventId;
+    //     document.getElementById("editEventName").value = name;
+    //     document.getElementById("editEventDescription").value = description;
+    //     document.getElementById("editEventLocation").value = location;
+    //     document.getElementById("editEventDate").value = date;
+    //     document.getElementById("editEventTime").value = time;
+        
+    //     document.getElementById("editModal").style.display = "flex"; // Fix display issue
+    // }
+
+
+    // // Handling the form submission for editing event
+    // document.getElementById("editEventForm")?.addEventListener("submit", function (event) {
+    //     event.preventDefault();
+    //     const eventId = document.getElementById("editEventId").value;
+    //     const name = document.getElementById("editEventName").value;
+    //     const description = document.getElementById("editEventDescription").value;
+    //     const location = document.getElementById("editEventLocation").value;
+    //     const date = document.getElementById("editEventDate").value;
+    //     const time = document.getElementById("editEventTime").value;
+
+    //     // Use AJAX to submit the form data to the server for updating the event
+    //     const xhr = new XMLHttpRequest();
+    //     xhr.open("POST", "updateEvent.php", true);
+    //     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    //     xhr.onload = function () {
+    //         if (xhr.status === 200) {
+    //             // Reload the page or update the event in the UI
+    //             location.reload();
+    //         } else {
+    //             alert("Error updating event.");
+    //         }
+    //     };
+
+    //     xhr.send(`event_id=${eventId}&name=${encodeURIComponent(name)}&description=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}&date=${date}&time=${time}`);
+        
+    // });
+
+    // // Function to update the event in the UI after submission (without page reload)
+    // function updateEventInUI(eventId, name, description, location, date, time) {
+    //     console.log("Updating UI for event ID:", eventId);
+
+    //     // Find the event in the UI and update the information
+    //     const eventElement = document.getElementById(`event-${eventId}`);
+    //     if (eventElement) {
+    //         eventElement.querySelector(".event-name").textContent = name;
+    //         eventElement.querySelector(".event-description").textContent = description;
+    //         eventElement.querySelector(".event-location").textContent = location;
+    //         eventElement.querySelector(".event-date").textContent = date;
+    //         eventElement.querySelector(".event-time").textContent = time;
+    //     } else {
+    //         console.error("Event element not found in the DOM!");
+    //     }
+    // }
+
+
+    ///////////////////////////////
+    //// DELETE MODAL SECTIION ////
+    ///////////////////////////////
 
     // Attach event listeners to all delete buttons
     document.querySelectorAll(".delete-btn").forEach(function (button) {
@@ -54,69 +115,10 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Function for displaying edit modal
-    function openEditModal(eventId, name, description, location, date, time) {
-        document.getElementById("editEventId").value = eventId;
-        document.getElementById("editEventName").value = name;
-        document.getElementById("editEventDescription").value = description;
-        document.getElementById("editEventLocation").value = location;
-        document.getElementById("editEventDate").value = date;
-        document.getElementById("editEventTime").value = time;
-        
-        document.getElementById("editModal").style.display = "flex"; // Fix display issue
-    }
-
     // Function for displaying delete modal
     function openDeleteModal(eventId) {
         document.getElementById("deleteEventId").value = eventId;
         document.getElementById("deleteModal").style.display = "flex"; // Fix display issue
-    }
-
-    // Handling the form submission for editing event
-    document.getElementById("editEventForm")?.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const eventId = document.getElementById("editEventId").value;
-        const name = document.getElementById("editEventName").value;
-        const description = document.getElementById("editEventDescription").value;
-        const location = document.getElementById("editEventLocation").value;
-        const date = document.getElementById("editEventDate").value;
-        const time = document.getElementById("editEventTime").value;
-
-        // Use AJAX to submit the form data to the server for updating the event
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "updateEvent.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                // Close the modal after the event is updated
-                closeEditModal();  // Ensure this function is available to close the modal
-
-                // Optionally, you can update the UI with the new event data dynamically without a full reload
-                updateEventInUI(eventId, name, description, location, date, time);
-                
-                location.reload(); 
-                // Alert the user about the successful update
-                alert("Event updated successfully!");
-            } else {
-                alert("Error updating event.");
-            }
-        };
-
-        xhr.send(`event_id=${eventId}&name=${encodeURIComponent(name)}&description=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}&date=${date}&time=${time}`);
-    });
-
-    // Function to update the event in the UI after submission (without page reload)
-    function updateEventInUI(eventId, name, description, location, date, time) {
-        // Find the event in the UI and update the information (this depends on your specific HTML structure)
-        const eventElement = document.getElementById(`event-${eventId}`);  // Assuming each event has a unique ID in the DOM
-        if (eventElement) {
-            eventElement.querySelector(".event-name").textContent = name;
-            eventElement.querySelector(".event-description").textContent = description;
-            eventElement.querySelector(".event-location").textContent = location;
-            eventElement.querySelector(".event-date").textContent = date;
-            eventElement.querySelector(".event-time").textContent = time;
-        }
     }
 
     // Handling the delete event action
@@ -351,14 +353,14 @@ function toggleNotifications() {
 
 // Fetch notifications from the server
 function fetchNotifications() {
-    const user_id = document.getElementById('userId').value; // Get user_id from the hidden input field
+    const user_id = document.getElementById('userId').value;
 
     fetch('../micro-D-event-alerts/event_notification.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ user_id: user_id }) // Send user_id to the server
+        body: JSON.stringify({ user_id: user_id })
     })
     .then(response => {
         if (!response.ok) {
@@ -371,11 +373,11 @@ function fetchNotifications() {
         return JSON.parse(text); // Try to parse it as JSON
     })
     .then(data => {
+        console.log("Parsed data:", data); // Log the parsed data
         if (data.success) {
             updateNotificationBadge(data.notifications.length);
             renderNotifications(data.notifications);
 
-            // Notify the user if there are upcoming events
             if (data.notifications.length > 0) {
                 notifyUser(data.notifications);
             }
@@ -385,7 +387,7 @@ function fetchNotifications() {
     })
     .catch(error => {
         console.error('Error fetching notifications:', error);
-        alert('An error occurred while fetching notifications. Please try again later.'); // Show an alert to the user
+        alert('An error occurred while fetching notifications. Please try again later.');
     });
 }
 
@@ -456,3 +458,38 @@ document.addEventListener('click', function(event) {
         dropdown.style.display = 'none';
     }
 });
+
+// // Handle form submission with AJAX
+// document.addEventListener('DOMContentLoaded', function () {
+    
+//     if (!editForm) {
+//         console.error('editEventForm1 not found in the DOM!');
+//         return;
+//     }
+
+//     document.getElementById('editEventForm').addEventListener('submit', function (e) {
+//         e.preventDefault(); // Prevent the default form submission
+        
+//         console.log("This event pass");
+
+//         const formData = new FormData(this);
+
+//         fetch('../microservice-D-event-actions/edit_event.php', {
+//             method: 'POST',
+//             body: formData
+//         })
+//         .then(response => response.json())
+//         .then(data => {
+//             if (data.success) {
+//                 alert(data.message); // Show success message
+//                 window.location.href = 'dashboard.php'; // Redirect to dashboard
+//             } else {
+//                 alert('Error: ' + data.error); // Show error message
+//             }
+//         })
+//         .catch(error => {
+//             console.error('Error:', error);
+//             alert('An error occurred. Please try again.');
+//         });
+//     });
+// });

@@ -520,13 +520,7 @@
                                         onclick="document.getElementById('imageUpload-<?php echo $event['id']; ?>').click()" 
                                     ></i>
                                 </a>
-                                <a href="#" title="Edit" 
-                                    data-id="<?php echo $event['id']; ?>"
-                                    data-name="<?php echo htmlspecialchars($event['name']); ?>"
-                                    data-description="<?php echo htmlspecialchars($event['description']); ?>"
-                                    data-location="<?php echo htmlspecialchars($event['location']); ?>"
-                                    data-date="<?php echo $event['date']; ?>"
-                                    data-time="<?php echo $event['time']; ?>">
+                                <a href="editEvent.php?id=<?php echo $event['id']; ?>&name=<?php echo urlencode($event['name']); ?>&description=<?php echo urlencode($event['description']); ?>&location=<?php echo urlencode($event['location']); ?>&date=<?php echo $event['date']; ?>&time=<?php echo $event['time']; ?>" title="Edit">
                                     <i class="fa fa-edit" title="Edit"></i>
                                 </a>
                                 <a href="#" title="Delete" class="delete-btn" 
@@ -567,15 +561,9 @@
                                 <p class="event-description"><?php echo nl2br(htmlspecialchars($event['description'])); ?></p>
                             </div>
                             <div class="event-actions">
-                                <a href="#" title="Edit" 
-                                    data-id="<?php echo $event['id']; ?>"
-                                    data-name="<?php echo htmlspecialchars($event['name']); ?>"
-                                    data-description="<?php echo htmlspecialchars($event['description']); ?>"
-                                    data-location="<?php echo htmlspecialchars($event['location']); ?>"
-                                    data-date="<?php echo $event['date']; ?>"
-                                    data-time="<?php echo $event['time']; ?>">
-                                    <i class="fa fa-edit"></i>
-                                </a>
+                            <a href="edit_event.php?id=<?php echo $event['id']; ?>&name=<?php echo urlencode($event['name']); ?>&description=<?php echo urlencode($event['description']); ?>&location=<?php echo urlencode($event['location']); ?>&date=<?php echo $event['date']; ?>&time=<?php echo $event['time']; ?>" title="Edit">
+                                <i class="fa fa-edit" title="Edit"></i>
+                            </a>
                                 <a href="#" title="Delete" class="delete-btn" 
                                     data-id="<?php echo $event['id']; ?>">
                                     <i class="fa fa-trash"></i>
@@ -593,38 +581,39 @@
     </div>
 
     <!-- Edit Modal -->
-    <div id="editModal" class="modal" style="height: 950px;">
-        <div class="modal-content">
-            <h2>Edit Event</h2>
-            <form id="editEventForm">
-                <input type="hidden" id="editEventId">
-                <div class="form-group">
-                    <label for="editEventName">Name:</label>
-                    <input type="text" id="editEventName" required>
-                </div>
-                <div class="form-group">
-                    <label for="editEventDescription">Description:</label>
-                    <textarea id="editEventDescription" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="editEventLocation">Location:</label>
-                    <input type="text" id="editEventLocation" required>
-                </div>
-                <div class="form-group">
-                    <label for="editEventDate">Date:</label>
-                    <input type="date" id="editEventDate" required>
-                </div>
-                <div class="form-group">
-                    <label for="editEventTime">Time:</label>
-                    <input type="time" id="editEventTime" required>
-                </div>
-                <div class="form-buttons">
-                    <button type="submit" class="btn-submit">Update</button>
-                    <button type="button" class="btn-cancel" onclick="closeEditModal()">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <!-- <div id="editModal" class="modal">
+         <div class="modal-content">
+             <h2>Edit Event</h2>
+             <form id="editEventForm">
+                 <input type="hidden" id="editEventId">
+                 <div class="form-group">
+                     <label for="editEventName">Name:</label>
+                     <input type="text" id="editEventName" required>
+                 </div>
+                 <div class="form-group">
+                     <label for="editEventDescription">Description:</label>
+                     <textarea id="editEventDescription" required></textarea>
+                 </div>
+                 <div class="form-group">
+                     <label for="editEventLocation">Location:</label>
+                     <input type="text" id="editEventLocation" required>
+                 </div> 
+                 <div class="form-group">
+                     <label for="editEventDate">Date:</label>
+                     <input type="date" id="editEventDate" required>
+                 </div>
+                 <div class="form-group">
+                     <label for="editEventTime">Time:</label>
+                     <input type="time" id="editEventTime" required>
+                 </div>
+                 <div class="form-buttons">
+                     <button type="submit" class="btn-submit">Update</button>
+                     <button type="button" class="btn-cancel" onclick="closeEditModal()">Cancel</button>
+                 </div>
+             </form>
+         </div>
+     </div> -->
+
 
     <!-- Delete Modal -->
     <div id="deleteModal" class="modal">
@@ -660,6 +649,6 @@
         </div>
     </div>
 
-    <script src="script.js"></script> 
+    <script src="script1.js"></script> 
 </body>
 </html>

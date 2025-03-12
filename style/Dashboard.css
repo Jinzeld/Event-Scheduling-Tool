@@ -210,6 +210,8 @@
     color: #fff; /* White text */
     margin: 5% auto;
     padding: 20px;
+    height: 100%;
+    max-height: 750px;
     border: 1px solid #888;
     width: 80%;
     max-width: 500px; /* Limit max width */
