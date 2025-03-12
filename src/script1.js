@@ -26,8 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("upcoming-events").style.display = "block";
 });
 
-// Javascript for updating evets and deleting events
-document.addEventListener("DOMContentLoaded", function () {
+
 
     // // Attach event listeners to all edit buttons
     // document.querySelectorAll(".event-actions a[title='Edit']").forEach(function (button) {
@@ -106,6 +105,8 @@ document.addEventListener("DOMContentLoaded", function () {
     //// DELETE MODAL SECTIION ////
     ///////////////////////////////
 
+// Javascript for deleting events
+document.addEventListener("DOMContentLoaded", function () {
     // Attach event listeners to all delete buttons
     document.querySelectorAll(".delete-btn").forEach(function (button) {
         button.addEventListener("click", function (event) {
@@ -125,23 +126,31 @@ document.addEventListener("DOMContentLoaded", function () {
     function confirmDeleteEvent() {
         const eventId = document.getElementById("deleteEventId").value;
 
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "deleteEvent.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onload = function () {
-            if (xhr.status === 200) {
+        // Send the event_id to deleteEvent.php using fetch
+        fetch("../micro-C-event-actions/delete_event.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: `event_id=${eventId}`,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.message); // Show success message
                 location.reload(); // Reload the page after deletion
             } else {
-                alert("Error deleting event.");
+                alert("Error: " + data.error); // Show error message
             }
-        };
-
-        xhr.send(`event_id=${eventId}`);
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred. Please try again.");
+        });
     }
 
     // Attach event listeners to the "Delete" button in delete modal
     document.getElementById("deleteModal").querySelector("button").addEventListener("click", confirmDeleteEvent);
-
 });
 
 // Delete modal helper for closing the pop-up
@@ -442,13 +451,13 @@ function showToast(message) {
     }, 5000);
 }
 
-// // Fetch notifications when the page loads
-// document.addEventListener('DOMContentLoaded', () => {
-//     fetchNotifications(); // Fetch notifications immediately on page load
+// Fetch notifications when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    fetchNotifications(); // Fetch notifications immediately on page load
 
-//     // Periodically check for new notifications (e.g., every 5 minutes)
-//     setInterval(fetchNotifications, 5 * 30 * 1000); // 5 minutes in milliseconds    
-// });
+    // Periodically check for new notifications (e.g., every 5 minutes)
+    setInterval(fetchNotifications, 5 * 30 * 1000); // 5 minutes in milliseconds    
+});
 
 // Close the dropdown when clicking outside
 document.addEventListener('click', function(event) {

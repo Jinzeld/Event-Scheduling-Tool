@@ -2,10 +2,7 @@
     session_start();
     require_once "../src/config.php"; // Include your database configuration
 
-    // Enable error reporting for debugging
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
-
+    
     // Function to send a POST request to the Flask microservice
     function sendSaveRequest($data) {
         $url = "https://micro-c-event-action.vercel.app/save_event"; // Updated endpoint URL
